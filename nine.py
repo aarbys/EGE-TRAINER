@@ -246,8 +246,6 @@ def numbers(type_of_problem):
 	correct_answer = numbers_solution(random_condition, random_equality)
 	check_answer(correct_answer)
 
-# gen_file(2, '')
-
 def numbers_solution(random_condition, random_equality):
 	table = pd.read_excel('9.xlsx')
 	first_column = list(table.columns)
@@ -341,5 +339,3 @@ def numbers_solution(random_condition, random_equality):
 					count += 1
 		correct_answer = count
 	return correct_answer
-
-question()
