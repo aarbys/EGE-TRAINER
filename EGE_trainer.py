@@ -6,6 +6,7 @@ import twenty_four
 import games
 import sixteen
 import seventeen
+import nine
 
 def start():
     print('Выберите номер задания')
@@ -14,6 +15,8 @@ def start():
         two.question()
     elif x == 6:
         six.question()
+    elif x == 9:
+        nine.question()
     elif x == 12:
         twelve.question()
     elif x == 14:
