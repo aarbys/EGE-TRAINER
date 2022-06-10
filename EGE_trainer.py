@@ -7,6 +7,7 @@ import games
 import sixteen
 import seventeen
 import nine
+import eighteen
 
 def start():
     print('Выберите номер задания')
