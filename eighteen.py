@@ -8,9 +8,9 @@ def question():
     type_of_problem = random.randint(1, 1)
     if type_of_problem == 1:
         if random.randint(1, 2) == 1:
-            top_left_hard()
+            top_right_hard()
         else:
-            top_left_hard()
+            top_right_hard()
     elif type_of_problem == 2:
         if random.randint(1, 2) == 1:
             top_right()
@@ -43,7 +43,7 @@ def start(amount_of_lines):
 
 
 def gen_file():
-    x = random.randint(10, 19)
+    x = random.randint(11, 11)
     first_table = []
     sex_after_siggarets = ''
     for i in range(x):  # Number
@@ -161,7 +161,7 @@ def check_answer(correct_answer):
 
 
 def solution_easy(table: 'input table from EXCEL', a_o_l: 'Amount of lines'):
-    solution_table = []  # Table with full solution of this problem
+    solution_table = []  # Table with full solution of this problem like a solution table[NUMBER][LETTER]
     for i in range(a_o_l):
         line = []  # Auxyliary variable will not usable
         for j in range(a_o_l):
@@ -203,7 +203,7 @@ def top_left_easy():
 
 def solution_medium(table: ' Excel table', a_o_l, psih: ' Variable divider'):
     answer = []
-    solution_table = []  # Table with full solution of this problem
+    solution_table = []  # Table with full solution of this problem like a solution table[NUMBER][LETTER]
     for i in range(a_o_l):
         line = []  # Auxyliary variable will not usable
         for j in range(a_o_l): line.append(0)
@@ -337,11 +337,9 @@ def bottom_left():
     print('Для указанных входных данных ответом должна быть пара чисел 35 и 15.')
     check_answer(correct_answer)
 
-
 def bottom_left_M_solution(table: ' Excel table', a_o_l, psih: ' Variable divider'):
     table.reverse()
     return solution_medium(table, a_o_l, psih)
-
 
 def bottom_left_M():
     table, amount_of_lines = gen_file()  # Excel table, amount of lines and values in lines
@@ -363,12 +361,10 @@ def bottom_left_M():
     print('Для указанных входных данных ответом должна быть пара чисел {} и {}.'.format(c_e_1, c_e_2))
     check_answer(correct_answer)
 
-
 def bottom_right_solution(table: 'input table from EXCEL', a_o_l: 'Amount of lines'):
     table.reverse()
     for x in range(len(table)): table[x].reverse()
     return solution_easy(table, a_o_l)
-
 
 def bottom_right():
     table, amount_of_lines = gen_file()
@@ -387,12 +383,10 @@ def bottom_right():
     print('Для указанных входных данных ответом должна быть пара чисел 41 и 22.')
     check_answer(correct_answer)
 
-
 def bottom_right_M_solution(table: ' Excel table', a_o_l, psih: ' Variable divider'):
     table.reverse()
     for x in range(len(table)): table[x].reverse()
     return solution_medium(table, a_o_l, psih)
-
 
 def bottom_right_M():
     table, amount_of_lines = gen_file()  # Excel table, amount of lines and values in lines
@@ -413,7 +407,6 @@ def bottom_right_M():
     c_e_1, c_e_2 = example_solution(psih, 2)  # Automatic answer for a table from funcution example
     print('Для указанных входных данных ответом должна быть пара чисел {} и {}.'.format(c_e_1, c_e_2))
     check_answer(correct_answer)
-
 
 def gen_borders(L:str,corner_N, corner_L,len_N, len_L):
     top = bottom = right = left = Side(border_style='thick',color='000000')
@@ -457,7 +450,6 @@ def gen_borders(L:str,corner_N, corner_L,len_N, len_L):
 
     wb.save('18.xlsx')
 
-
 def top_left_hard_solution(table, a_o_l, corner_N, corner_L, len_N, len_L):
     def max_func_special(sol_tab, table, a_o_l):
         for i in range(1, a_o_l):
@@ -478,11 +470,12 @@ def top_left_hard_solution(table, a_o_l, corner_N, corner_L, len_N, len_L):
             for LETTER in range(corner_L - len_L+1, corner_L+1):
                 sol_tab[NUMBER][LETTER] = what
         return sol_tab
+
     sum_table_1 = 1
     for i in table:
         sum_table_1+=sum(i)
 
-    sol_tab = []  # Table with full solution of this problem like a solution table
+    sol_tab = []  # Table with full solution of this problem like a solution table[NUMBER][LETTER]
 
     for i in range(a_o_l):
         line = []  # Auxyliary variable will not usable
@@ -512,10 +505,9 @@ def top_left_hard_solution(table, a_o_l, corner_N, corner_L, len_N, len_L):
     answer = [maximum, minimum]  # Full answer in one variable(probably changed)
     return answer
 
-
 def top_left_hard():
     table, amount_of_lines = gen_file()  # Excel table, amount of lines and values in lines
-    corner_N, corner_L = random.randint(4, amount_of_lines - 4), random.randint(4, amount_of_lines - 4)
+    corner_N, corner_L = random.randint(5, amount_of_lines - 5), random.randint(5, amount_of_lines - 5)
     len_N, len_L = random.randint(2, 4), random.randint(2, 4)
     gen_borders('TL',corner_N, corner_L,len_N, len_L)
     correct_answer = top_left_hard_solution(table, amount_of_lines, corner_N, corner_L, len_N, len_L)
@@ -534,12 +526,66 @@ def top_left_hard():
     check_answer(correct_answer)
 
 def top_right_hard_solution(table, a_o_l, corner_N, corner_L, len_N, len_L):
-    return 1
+    answer =[]
 
+    def nullifier(corner_N, len_N, corner_L, len_L, sol_tab, what):
+        for NUMBER in range(corner_N-len_N,corner_N):
+            for LETETER in range(corner_L-len_L+2,corner_L+2):
+                sol_tab[NUMBER][LETETER] = what
+        return sol_tab
+
+    sum_table = 1
+    for i in table:
+        sum_table+=sum(i)
+
+    sol_tab =[] # solution table two-dimensional massif [NUMBER][LETTER]
+    for i in range(a_o_l):
+        line =[]
+        for j in range(a_o_l):
+            line.append(0)
+        sol_tab.append(line)
+
+    sol_tab[0][-1] = table[0][-1]
+    for NUMBER in range(1,a_o_l):
+        sol_tab[NUMBER][-1] = sol_tab[NUMBER-1][-1] + table[NUMBER][-1]
+        sol_tab[0][a_o_l - NUMBER - 1] = sol_tab[0][a_o_l - NUMBER] + table[0][a_o_l - NUMBER - 1] # There is NUMBER like a LETTER
+        # I wanted to unite two cilce FOR
+
+    for NUMBER in range(1, a_o_l):
+        for LETTER in range(1, a_o_l):
+            n_l = a_o_l - 1 - LETTER # new letter
+            n = NUMBER
+            sol_tab[n][n_l] = max(sol_tab[n - 1][n_l], sol_tab[n][n_l + 1]) + table[n][n_l]
+
+    sol_tab = nullifier(corner_N, len_N, corner_L+1, len_L, sol_tab, -1)
+
+    for NUMBER in range(1, a_o_l):
+        for LETTER in range(1, a_o_l):
+            n_l = a_o_l - 1 - LETTER  # new letter
+            n = NUMBER
+            if sol_tab[n][n_l] != -1:
+                sol_tab[n][n_l] = max(sol_tab[n - 1][n_l], sol_tab[n][n_l + 1]) + table[n][n_l]
+            else:
+                continue
+
+
+    answer.append(sol_tab[-1][0])
+    sol_tab = nullifier(corner_N, len_N, corner_L+1, len_L, sol_tab, sum_table)
+
+    for NUMBER in range(1, a_o_l):
+        for LETTER in range(1, a_o_l):
+            n_l = a_o_l - 1 - LETTER  # new letter
+            n = NUMBER
+            if sol_tab[n][n_l] != sum_table:
+                sol_tab[n][n_l] = min(sol_tab[n - 1][n_l], sol_tab[n][n_l + 1]) + table[n][n_l]
+            else:
+                continue
+    answer.append(sol_tab[-1][0])
+    return answer
 
 def top_right_hard():
     table, amount_of_lines = gen_file()  # Excel table, amount of lines and values in lines
-    corner_N, corner_L = random.randint(4, amount_of_lines - 4), random.randint(4, amount_of_lines - 4)
+    corner_N, corner_L = random.randint(5, amount_of_lines - 5), random.randint(5, amount_of_lines - 5)
     len_N, len_L = random.randint(2, 4), random.randint(2, 4)
     gen_borders('TR',corner_N, corner_L,len_N, len_L)
     correct_answer = top_right_hard_solution(table, amount_of_lines, corner_N, corner_L, len_N, len_L)
@@ -554,7 +600,6 @@ def top_right_hard():
         'Исходные данные представляют собой электронную таблицу размером {}*{}, каждая ячейка которой соответствует клетке квадрата.'.format(
             amount_of_lines, amount_of_lines))
     example()
-    print('Для указанных входных данных ответом должна быть пара чисел 41 и 22.')
+    print('Для указанных входных данных ответом должна быть пара чисел 35 и 15.')
     check_answer(correct_answer)
-    return 1
 
