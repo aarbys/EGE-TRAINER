@@ -9,6 +9,7 @@ import seventeen
 import nine
 import eighteen
 import fourteen
+import twenty_two
 
 def start():
     print('Выберите номер задания')
