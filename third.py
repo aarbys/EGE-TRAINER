@@ -31,10 +31,14 @@ def basic_word():
 
 
 def solution(ids_name_items, shop, t_o_p: str):  # That's mean Type of problem
-
     ids_item = list(ids_name_items.keys())
     id_shop = list(shop.values())
-    id_shop = id_shop[0]
+    id_shop_correct =[]
+    for i in range(len(id_shop)):
+        K = id_shop[i]
+        for j in K:
+            id_shop_correct.append(j)
+    id_shop = id_shop_correct
     status_amount = []
     for smtm in id_shop:
         for smth in ids_item:
@@ -48,10 +52,6 @@ def solution(ids_name_items, shop, t_o_p: str):  # That's mean Type of problem
                 status_amount.append(v)
     t_o_p.lower()
     t_o_p = t_o_p.split()
-    print(t_o_p)
-    print('status_amount = {}'.format(status_amount))
-    print('ids_item = {}'.format(ids_item))
-    print('ids_name_items = {}'.format(ids_name_items))
     answer =0
     if t_o_p[0] == 'увеличилось' or t_o_p[0] == 'уменьшилось':
         if t_o_p[1] == 'упаковок':
@@ -73,10 +73,20 @@ def solution(ids_name_items, shop, t_o_p: str):  # That's mean Type of problem
         if t_o_p[0] == 'уменьшилось':
             answer = answer *(-1)
     elif t_o_p[0] == 'заработали':
+        summ = 0
         for i in status_amount:
-            if i[0] == 'Продажа':
-
-    print(answer)
+            smth = i
+            if smth[0] == 'Продажа':
+                summ+= (smth[-1]*smth[1])
+        summ *= -1
+        answer = summ
+    elif t_o_p[0] == 'потратили':
+        summ = 0
+        for i in status_amount:
+            smth = i
+            if smth[0] == 'Поступление':
+                summ+= (smth[-1]*smth[1])
+        answer = summ
     return answer
 
 
@@ -91,7 +101,7 @@ def items():
     kilo = [int(i) for i in range(13, amount_of_v_c + 1)]
     kilo.remove(kilo[3])
     usable_v_c = []
-    k = r.choice(all_v_c)
+    k =r.choice(all_v_c)
     usable_v_c.append(k)
     smth = 'упаковок'
     if k in liter:
@@ -120,7 +130,7 @@ def items():
 
 def shops():
     x = r.randint(1, 2)  # Choosing how many shops will be using
-    prob = ['Октябрьский', 'Первомайский', 'Заречный']
+    prob = ['Первомайский', 'Заречный'] # 'Октябрьский',
     usable_shops = []
     for i in range(x):
         asd = r.choice(prob)
@@ -153,7 +163,8 @@ def question():
     else:c_of_q_p = c_of_q_u = r.choice(prob3)
 
     correct_answer = solution(ids_name_items, shop, c_of_q_p)
-    #basic_word()
+    basic_word()
+
     print('Используя информацию из приведённой базы данных, определите')
     if k == 1:
         print('На сколько {}:'.format(c_of_q_u))
@@ -168,6 +179,8 @@ def question():
     shop_keys = list(shop.keys())
     what =''
     for i in shop_keys:what+= i +' '
-    print('Магазины таких этих районов:\n {}'.format(what))
+    print('Магазины этих районов:\n {}'.format(what))
     print('В ответ укажите целую часть полученного числа.')
+    print('Если получается обратное значение.Укажите отрицательное число.\nПример:')
+    print('Вопрос про уменьшее, а количество на самом деле УВЕЛИЧИЛОСЬ => знак меняется')
     check_answer(correct_answer)
