@@ -40,7 +40,7 @@ def check_answer(correct_answers):
             print(correct_answers)
         elif new_answer != 'Нет':
             print('Что? Надеюсь Вы не хотели узнать ответ)')
-            print('Всё равно покажу, на всякий случай.', correct_answer)
+            print('Всё равно покажу, на всякий случай.', *correct_answers)
     exit()
 
 def gen_file(type_of_problem):
