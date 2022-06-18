@@ -71,9 +71,9 @@ def m_buck_solution():
     correct_answers = [0, 0]
     for k in range(2):
         if k == 0:
-            x = open('27_A.txt')
+            f = open('27_A.txt')
         else:
-            x = open('27_B.txt')
+            f = open('27_B.txt')
         n = int(f.readline())
         a = [int(i) for i in x]
         price = [0] * n
