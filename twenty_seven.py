@@ -75,7 +75,7 @@ def m_buck_solution():
         else:
             f = open('27_B.txt')
         n = int(f.readline())
-        a = [int(i) for i in x]
+        a = [int(i) for i in f]
         price = [0] * n
         for i in range(1, n):
             price[0] += min(i, n - i) * a[i]
