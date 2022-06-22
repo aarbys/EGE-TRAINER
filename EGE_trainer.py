@@ -1,4 +1,5 @@
 import third # есть
+import five
 import nine # есть
 import fourteen # есть
 import sixteen # есть
@@ -11,7 +12,7 @@ import twenty_four # есть
 import twenty_five # есть
 import twenty_six # есть
 import twenty_seven # есть
-import five
+
 
 
 def start():
