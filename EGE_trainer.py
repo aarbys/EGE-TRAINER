@@ -1,5 +1,5 @@
 import third # есть
-import four # Неполный, приписку оставил
+import four 
 import five
 
 import nine # есть
