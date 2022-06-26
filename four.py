@@ -1,18 +1,21 @@
 import random as r
 from PIL import Image, ImageDraw, ImageFont
-import random as r
- # https://inf-ege.sdamgia.ru/problem?id=7658
- # Надо сделать, пока не поманию как
+import networkx as nx
+import io
+import matplotlib.pyplot as plt
 
 
 def question():
     print('1) Закодируйте слово')
     print('2) Декодируйте последовательность букв')
+    print('3) Минимальная длина кодов')
     x = int(input())
     if x == 1:
         word_to_n_system()
     elif x == 2:
         decoding_information()
+    else:
+        lesset_code()
 
 
 def check_answer(correct_answer):
@@ -120,3 +123,123 @@ def decoding_information():
     print('Какая последовательность из {} букв закодирована двоичной строкой {}'.format(amount_letters, wtf))
     check_answer(correct_answer)
 
+
+def lesset_code_solution(g, their_codes, all_weights):
+    answer = 0
+    if len(all_weights) == 1:
+        answer += (int(all_weights[0]) + 2) * 2
+    elif all_weights[0]+2 < all_weights[1]:
+        answer += (int(all_weights[0]) + 2) * 2
+    else:
+        answer += int(all_weights[0]) + int(all_weights[1]) + 2
+    if g == 1:
+        for i in their_codes:
+            answer += len(i)
+    print(all_weights,'ALL_WEIGHTS')
+    print(their_codes,'THEIR_CODES')
+    return answer
+
+
+def lesset_code():
+    amount_letters, their_codes, all_weights = lesset_code_true_generation()
+    k = r.randint(67, 90 - amount_letters)
+    this_letters = [chr(k + i) for i in range(amount_letters)]
+    print(
+        'Для кодирования некоторой последовательности, состоящей из {} букв,решили использовать неравномерный двоичный код, удовлетворяющий условию Фано.'.format(
+            amount_letters+2))
+    for i in range(amount_letters):
+        print('{} имеет код {}'.format(this_letters[i], their_codes[i]))
+
+    g = r.randint(1, 2)
+    if g == 1:
+        print('Какова наименьшая возможная суммарная длина всех кодовых слов?')
+    else:
+        print('Какова наименьшая возможная суммарная длина двух оставшихся кодовых слов?')
+    correct_answer = lesset_code_solution(g, their_codes, all_weights)
+    check_answer(correct_answer)
+
+def lesset_code_true_generation():
+    main_flag = True
+    while main_flag:
+        graph_0 = nx.Graph()
+        graph_1 = nx.Graph()
+        graph_0.add_node('0')
+        graph_1.add_node('1')
+        codes = []
+        amount_operation = 0
+        amount_letters = r.randint(4, 6)
+        while len(codes) != amount_letters and amount_operation <= 100:
+            if len(codes) < amount_letters - 4:
+                smth = r.randint(4, 4)
+            elif len(codes) < amount_letters - 2:
+                smth = r.randint(3, 4)
+            else:
+                smth = r.randint(2, 2)
+            st = ''
+            for i in range(smth):
+                st += r.choice('10')
+            if st in codes:
+                amount_operation += 1
+                continue
+            else:
+                flag = True
+                for i in codes:
+                    index = i.find(st)
+                    if index == 0:
+                        flag = False
+                        amount_operation += 1
+
+                        break
+            if flag:
+                amount_operation += 1
+                codes.append(st)
+                start = st[0]
+                if start == '0':
+                    i = 0
+                    while st[:i] in graph_0: i += 1
+                    k = i
+                    while st[:k - 1] not in graph_0:
+                        if k == 1:
+                            graph_0.add_edge(st[0], st[:2])
+                        else:
+                            graph_0.add_edge(st[:k - 2], st[:k - 1])
+                        k -= 1
+                    graph_0.add_edge(st, st[:i - 1])
+                else:
+                    i = 0
+                    while st[:i] in graph_1: i += 1
+                    k = i
+                    while st[:k - 1] not in graph_1:
+                        if k == 1:
+                            graph_1.add_edge(st[0], st[:2])
+                        else:
+                            graph_1.add_edge(st[:k - 2], st[:k - 1])
+                        k -= 1
+                    graph_1.add_edge(st, st[:i - 1])
+
+        ch = 0
+        for i in codes:
+            if len(i) == 2:
+                ch += 1
+        if ch == 2:
+            main_flag = False
+
+    if '00' in graph_0:
+        graph_0.add_edge('00', '0')
+    if '01' in graph_0:
+        graph_0.add_edge('01', '0')
+    if '10' in graph_1:
+        graph_1.add_edge('10', '1')
+    if '11' in graph_1:
+        graph_1.add_edge('11', '1')
+
+    main_graph = nx.union(graph_0, graph_1)
+    main_graph.add_edge('start', '0')
+    main_graph.add_edge('start', '1')
+    all_weights = []
+    for i in main_graph:
+        if (((i + '1') in main_graph) and ((i + '0') not in main_graph)) or (
+                ((i + '0') in main_graph) and ((i + '1') not in main_graph)):
+            all_weights.append(len(i))
+
+    return amount_letters, codes, sorted(all_weights)
