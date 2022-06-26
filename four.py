@@ -135,8 +135,6 @@ def lesset_code_solution(g, their_codes, all_weights):
     if g == 1:
         for i in their_codes:
             answer += len(i)
-    print(all_weights,'ALL_WEIGHTS')
-    print(their_codes,'THEIR_CODES')
     return answer
 
 
