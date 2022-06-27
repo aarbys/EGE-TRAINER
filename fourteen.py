@@ -4,12 +4,12 @@ import random
 def question():
     x = random.randint(3, 3)
     if x == 1:
-        how_many_numbers()
+        c_a=how_many_numbers()
     elif x == 2:
-        dominant_number()
+        c_a=dominant_number()
     else:
-        guess_the_melody()
-
+        c_a=guess_the_melody()
+    return c_a
 
 def gen_num():
     base_of_system = random.randint(2, 9)
@@ -20,21 +20,6 @@ def gen_num():
     return base_of_system, number_we_finding, first_n, seconde_n, third_n, first_degree, seconde_degree, f_sign, s_sign
 
 
-def check_answer(correct_answer):
-    print('Введите ответ: ')
-    answer = int(input())
-    if answer == correct_answer:
-        print('Молодец, всё верно!')
-    else:
-        print('К сожалению, это неправильный ответ')
-        print('Хотите узнать правильный ответ? (Да/Нет)')
-        y_n = input()
-        if y_n == 'Да':
-            print(correct_answer)
-        elif y_n != 'Нет':
-            print('Что? Надеюсь Вы хотели узнать ответ)')
-            print('Всё равно покажу, на всякий случай.\n', correct_answer)
-    exit()
 
 
 def conv_number(first_n, second_n, third_n, f_degree, s_degree, f_sign, s_sign):
@@ -68,7 +53,7 @@ def how_many_numbers():
                                                s_sign)
     print('Определите сколько {} содержится в {} записи выражение:'.format(n_w_f, b_o_s))
     print('{}^{} {} {}^{} {} {}'.format(first_n, f_degree, f_sign, second_n, s_degree, s_sign, third_n))
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def dominant_number_solution(b_o_s, first_n, second_n, third_n, f_degree, s_degree, f_sign, s_sign):
@@ -91,7 +76,7 @@ def dominant_number():
     print('Определите какое число чаще всего встречается в {} записи числа:'.format(b_o_s))
     print('{}^{} {} {}^{} {} {}'.format(first_n, f_degree, f_sign, second_n, s_degree, s_sign, third_n))
     print('Если несколько чисел встречаются с одинаковой частотой, то выберите меньшее из них')
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def guess_the_melody_solution(start_number):
@@ -109,4 +94,4 @@ def guess_the_melody():
     end_number, correct_answer = guess_the_melody_solution(start_number)
     print('Число {} записывается как {} в некотрой системе счисления.'.format(start_number, end_number))
     print('Укажите эту систему счисления.')
-    check_answer(correct_answer)
+    return correct_answer

@@ -11,32 +11,12 @@ def question():
     print('3) Минимальная длина кодов')
     x = int(input())
     if x == 1:
-        word_to_n_system()
+        c_a=word_to_n_system()
     elif x == 2:
-        decoding_information()
+        c_a=decoding_information()
     else:
-        lesset_code()
-
-
-def check_answer(correct_answer):
-    print('Вводите ответ:')
-    x = input()
-    try:
-        x = int(x)
-    except ValueError:
-        x = x
-    if x == correct_answer:
-        print('Поздравляю, верно!')
-    else:
-        print('Вы не правы(')
-        print('Хотите узнать верный ответ? (Да/Нет)')
-        y_n = input().lower()
-        if y_n == 'да':
-            print(correct_answer)
-        elif y_n != 'нет':
-            print('Что?')
-            print('Надеюсь, Вы хотели узнать ответ')
-            print(correct_answer)
+        c_a=lesset_code()
+    return c_a
 
 
 def word_to_n_system():
@@ -53,7 +33,7 @@ def word_to_n_system():
     print('Закодируйте последовательность букв {} таким способом и результат запишите в {} системе счистления'.format(
         this_word.upper(), new_system))
     correct_answer = solution(to_user_and_prog, this_word, new_system)
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def solution(to_user_and_prog, this_word, new_system):
@@ -121,7 +101,7 @@ def decoding_information():
     print('Эти коды представлены в таблице:')
     wtf, correct_answer, amount_letters = decoding_information_generate_image(k)
     print('Какая последовательность из {} букв закодирована двоичной строкой {}'.format(amount_letters, wtf))
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def lesset_code_solution(g, their_codes, all_weights):
@@ -154,7 +134,7 @@ def lesset_code():
     else:
         print('Какова наименьшая возможная суммарная длина двух оставшихся кодовых слов?')
     correct_answer = lesset_code_solution(g, their_codes, all_weights)
-    check_answer(correct_answer)
+    return correct_answer
 
 def lesset_code_true_generation():
     main_flag = True
