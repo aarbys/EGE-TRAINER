@@ -1,7 +1,7 @@
 import third  # есть
 import four
 import five
-import six_1
+import six
 import nine  # есть
 import fourteen  # есть
 import sixteen  # есть
@@ -41,25 +41,61 @@ def check_answer(correct_answer, number):
             if new_answer == 'да':
                 print(*correct_answer)
             elif new_answer != 'нет':
-                print('Что? Надеюсь Вы не хотели узнать ответ)')
+                print('Что? Надеюсь Вы хотели узнать ответ)')
                 print('Всё равно покажу, на всякий случай.', *correct_answer)
         exit()
     elif number in more_two:
-        asd = input().split()  # User's input
-        asd = list(map(int, asd))
-        if asd[0] == correct_answer[0] and asd[1] == correct_answer[1]:
-            print('Да,Вы верны!')
+        print('Вводите ответы построчно.')
+        if number == 25 and len(correct_answer[0])>1:
+            print('Вводите ответ:')
+            for i in range(len(correct_answer)):
+                x = input().split()
+                x = list(map(int, x))
+                if correct_answer[i][0] == x[0] and correct_answer[i][1] == x[1]:
+                    print('Правильно!')
+                    continue
+                else:
+                    print('Вы не правы, могу предложить Вам ответ, интересует? ( Да/Нет)')
+                    answer = input()
+                    if answer == 'Да':
+                        for j in range(len(correct_answer)):
+                            print(*correct_answer[j])
+                    elif answer != 'Нет':
+                        print('Что? Надеюсь Вы хотели узнать ответ)')
+                        print('Всё равно покажу, на всякий случай.')
+                        for j in range(len(correct_answer)):
+                            print(*correct_answer[j])
+                break
+            exit()
+        elif number == 25 and len(correct_answer[0]) == 1:
+            print('Вводите ответ:')
+            for i in range(len(correct_answer)):
+                x = int(input())
+                if correct_answer[i] == x:
+                    print('Правильно!')
+                    continue
+                else:
+                    print('Вы не правы, могу предложить Вам ответ, интересует? ( Да/Нет)')
+                    answer = input()
+                    if answer == 'Да':
+                        for j in range(len(correct_answer)):
+                            print(correct_answer[j])
+                break
         else:
-            print('Вы не правы(')
-            print('Хотите узнать верный ответ? (Да/Нет)')
-            y_n = input().lower()  # Variable for answer question upper
-            if y_n == 'да':
-                print(correct_answer)
-            elif y_n != 'нет':
-                print('Что?')
-                print('Надеюсь, Вы хотели узнать ответ')
-                print(*correct_answer)
-        exit()
+            print('Вводите ответ:')
+            for i in range(3):
+                x = int(input())
+                if correct_answer[i] == x:
+                    print('Верно!')
+                else:
+                    print('Неверно,хотите узнать ответ?(Да/Нет)')
+                    y_n = input()
+                    if y_n == 'Да':
+                        print(correct_answer[i])
+                    elif y_n != 'Нет':
+                        print('Что? Надеюсь Вы не хотели узнать ответ)')
+                        print('Всё равно покажу, на всякий случай.', correct_answer[i])
+            exit()
     else:
         if number == 12:
             asd = input()

@@ -7,9 +7,10 @@ def question():
     print('2) 2 кучи')
     type_of_problem = int(input())
     if type_of_problem == 1:
-        one_pile()
+        c_a = one_pile()
     else:
-        two_pile()
+        c_a = two_pile()
+    return c_a
 
 
 def termins_and_questions():
@@ -25,23 +26,6 @@ def termins_and_questions():
     print('21) Найдите минимальное значение S, при котором одновременно выполняются два условия:')
     print(' — у Вани есть выигрышная стратегия, позволяющая ему выиграть первым или вторым ходом при любой игре Пети;')
     print('— у Вани нет стратегии, которая позволит ему гарантированно выиграть первым ходом.')
-
-
-def check_answer(correct_answer):
-    print('Вводите ответ:')
-    for i in range(3):
-        x = int(input())
-        if correct_answer[i] == x:
-            print('Верно!')
-        else:
-            print('Неверно,хотите узнать ответ?(Да/Нет)')
-            y_n = input()
-            if y_n == 'Да':
-                print(correct_answer[i])
-            elif y_n != 'Нет':
-                print('Что? Надеюсь Вы не хотели узнать ответ)')
-                print('Всё равно покажу, на всякий случай.', correct_answer[i])
-    exit()
 
 
 def what_is_this_a(real_moves, amount_of_moves, a):
@@ -138,7 +122,7 @@ def one_pile():
             winning_game))
     print('В начальный момент в куче было S камней; 1 ≤ S ≤ {}.'.format(winning_game - 1))
     termins_and_questions()
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def two_pile_solution(real_moves, amount_of_moves, first_pile, winning_game):
@@ -146,7 +130,7 @@ def two_pile_solution(real_moves, amount_of_moves, first_pile, winning_game):
         a, b = move
         if amount_of_moves == 2:
             return (what_is_this_a(real_moves, 0, a), b), (what_is_this_a(real_moves, 1, a), b), (
-            a, what_is_this_a(real_moves, 0, b)), (
+                a, what_is_this_a(real_moves, 0, b)), (
                        a, what_is_this_a(real_moves, 1, b))
         else:
             return (what_is_this_a(real_moves, 0, a), b), (what_is_this_a(real_moves, 1, a), b), (
@@ -214,4 +198,4 @@ def two_pile():
     print('В начальный момент в первой куче было', first_pile,
           'камней, во второй куче — S камней; 1 ≤ S ≤ {}.'.format(winning_game - 1))
     termins_and_questions()
-    check_answer(correct_answer)
+    return correct_answer

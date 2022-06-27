@@ -4,24 +4,6 @@ import random as r
 
 con = sq.connect('third.db')
 
-
-def check_answer(correct_answer):
-    print('Введите ответ:')
-    x = int(input())  # User's input
-    if x == correct_answer:
-        print('Да,Вы верны!')
-    else:
-        print('Вы не правы(')
-        print('Хотите узнать верный ответ? (Да/Нет)')
-        y_n = input()  # Variable for answer question upper
-        if y_n == 'Да':
-            print(correct_answer)
-        elif y_n != 'Нет':
-            print('Что?')
-            print('Надеюсь, Вы хотели узнать ответ')
-            print(correct_answer)
-    exit()
-
 def basic_word():
     print('В файле приведён фрагмент базы данных «Продукты» о поставках товаров в магазины районов города. \nБаза данных состоит из трёх таблиц.')
     print('Таблица «Движение товаров» содержит записи о поставках товаров в магазины в течение первой декады июня 2021г., \nа также информацию о проданных товарах.')
@@ -183,4 +165,4 @@ def question():
     print('В ответ укажите целую часть полученного числа.')
     print('Если получается обратное значение.Укажите отрицательное число.\nПример:')
     print('Вопрос про уменьшее, а количество на самом деле УВЕЛИЧИЛОСЬ => знак меняется')
-    check_answer(correct_answer)
+    return correct_answer

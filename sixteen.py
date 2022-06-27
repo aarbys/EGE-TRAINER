@@ -10,21 +10,6 @@ def question():
 
 
 
-def check_answer(correct_answer):
-    x = int(input())
-    if x == correct_answer:
-        print('Поздравляю, верно!')
-    else:
-        print('Вы не правы(')
-        print('Хотите узнать верный ответ? (Да/Нет)')
-        y_n = input()
-        if y_n == 'Да':
-            print(correct_answer)
-        elif y_n != 'Нет':
-            print('Что?')
-            print('Надеюсь, Вы хотели узнать ответ')
-            print(correct_answer)
-
 def two_recursive_func_solution(func_1, func_2, func_f,
                                 func_g, multiplier_1_f, multiplier_2_f, multiplier_1_g, multiplier_2_g, component_1_f,
                                 component_2_f,
@@ -77,7 +62,7 @@ def two_recursive_func():
     print('G(n) = {}*F(n-2)'.format(multiplier_1_g), '+{};   если n - четное'.format(component_1_g))
     print('G(n) = {}*F(n-1)'.format(multiplier_2_g), '+{};   если n - нечетное'.format(component_2_g), '\n')
     print('Найдите чему будет равно {}'.format(f_or_g),'({})'.format(what_we_need_found))
-    check_answer(correct_answer)
+    return correct_answer
 
 
 
@@ -105,4 +90,4 @@ def one_recursive_func():
     print('F(n) = F(n-1) // {}'.format(divider), '+{};   если n - четное'.format(first))
     print('F(n) = F(n-2)%{}'.format(remains), '-{};   если n - нечетное'.format(seconde), '\n')
     print('Найдите значение F(n), при n = {}'.format(random_n))
-    check_answer(correct_answer)
+    return correct_answer

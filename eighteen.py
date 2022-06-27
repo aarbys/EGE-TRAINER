@@ -9,36 +9,36 @@ def question():
     if type_of_problem == 1:
         aaa = random.randint(1, 3)
         if aaa == 1:
-            top_left_easy()
+            c_a=top_left_easy()
         elif aaa == 2:
-            top_left_medium()
+            c_a=top_left_medium()
         else:
-            top_left_hard()
+            c_a=top_left_hard()
     elif type_of_problem == 2:
         aaa = random.randint(1, 3)
         if aaa == 1:
-            top_right()
+            c_a=top_right()
         elif aaa==2:
-            top_right_M()
+            c_a=top_right_M()
         else:
-            top_right_hard()
+            c_a=top_right_hard()
     elif type_of_problem == 3:
         aaa = random.randint(1, 3)
         if aaa == 1:
-            bottom_left()
+            c_a=bottom_left()
         elif aaa==2:
-            bottom_left_M()
+            c_a=bottom_left_M()
         else:
-            bottom_left_hard()
+            c_a=bottom_left_hard()
     else:
         aaa = random.randint(1, 3)
         if aaa == 1:
-            bottom_right()
+            c_a=bottom_right()
         elif aaa==2:
-            bottom_right_M()
+            c_a=bottom_right_M()
         else:
-            bottom_right_hard()
-
+            c_a=bottom_right_hard()
+    return c_a
 
 def maximum_func(sol_tab, table, a_o_l):
     for i in range(1, a_o_l):
@@ -162,23 +162,6 @@ def example_solution(psih, type_position):
     return answer
 
 
-def check_answer(correct_answer):
-    x = input().split()  # User's input
-    x = list(map(int, x))
-    if x[0] == correct_answer[0] and x[1] == correct_answer[1]:
-        print('Да,Вы верны!')
-    else:
-        print('Вы не правы(')
-        print('Хотите узнать верный ответ? (Да/Нет)')
-        y_n = input()  # Variable for answer question upper
-        if y_n == 'Да':
-            print(correct_answer)
-        elif y_n != 'Нет':
-            print('Что?')
-            print('Надеюсь, Вы хотели узнать ответ')
-            print(*correct_answer)
-    exit()
-
 
 def solution_easy(table: 'input table from EXCEL', a_o_l: 'Amount of lines'):
     solution_table = []  # Table with full solution of this problem like a solution table[NUMBER][LETTER]
@@ -218,7 +201,7 @@ def top_left_easy():
             amount_of_lines, amount_of_lines))
     example()
     print('Для указанных входных данных ответом должна быть пара чисел 41 и 22.')
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def solution_medium(table: ' Excel table', a_o_l, psih: ' Variable divider'):
@@ -279,7 +262,7 @@ def top_left_medium():
     example()
     c_e_1, c_e_2 = example_solution(psih,0)  # Automatic answer for a table from funcution example
     print('Для указанных входных данных ответом должна быть пара чисел {} и {}.'.format(c_e_1, c_e_2))
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def top_right_solution(table: 'input table from EXCEL', a_o_l: 'Amount of lines'):
@@ -304,7 +287,7 @@ def top_right():
             amount_of_lines, amount_of_lines))
     example()
     print('Для указанных входных данных ответом должна быть пара чисел 35 и 15.')
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def top_right_M_solution(table: ' Excel table', a_o_l, psih: ' Variable divider'):
@@ -331,7 +314,7 @@ def top_right_M():
     example()
     c_e_1, c_e_2 = example_solution(psih, 3)  # Automatic answer for a table from funcution example
     print('Для указанных входных данных ответом должна быть пара чисел {} и {}.'.format(c_e_1, c_e_2))
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def bottom_left_soliution(table: 'input table from EXCEL', a_o_l: 'Amount of lines'):
@@ -355,7 +338,7 @@ def bottom_left():
             amount_of_lines, amount_of_lines))
     example()
     print('Для указанных входных данных ответом должна быть пара чисел 35 и 15.')
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def bottom_left_M_solution(table: ' Excel table', a_o_l, psih: ' Variable divider'):
@@ -366,7 +349,7 @@ def bottom_left_M_solution(table: ' Excel table', a_o_l, psih: ' Variable divide
 def bottom_left_M():
     table, amount_of_lines = gen_file()  # Excel table, amount of lines and values in lines
     psih = random.randint(2, 10)  # Random number that will be divider
-    correct_answer = bottom_left_M_soliution(table, amount_of_lines, psih)
+    correct_answer = bottom_left_M_solution(table, amount_of_lines, psih)
     start(amount_of_lines,'вверх','право','верхнюю','правую')
     print(
         'Посетив клетку, Робот забирает монету с собой,если её достоинство кратно {};\n это также относится к начальной и конечной клетке маршрута Робота.'.format(
@@ -381,7 +364,7 @@ def bottom_left_M():
     example()
     c_e_1, c_e_2 = example_solution(psih, 1)  # Automatic answer for a table from funcution example
     print('Для указанных входных данных ответом должна быть пара чисел {} и {}.'.format(c_e_1, c_e_2))
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def bottom_right_solution(table: 'input table from EXCEL', a_o_l: 'Amount of lines'):
@@ -405,7 +388,7 @@ def bottom_right():
             amount_of_lines, amount_of_lines))
     example()
     print('Для указанных входных данных ответом должна быть пара чисел 41 и 22.')
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def bottom_right_M_solution(table: ' Excel table', a_o_l, psih: ' Variable divider'):
@@ -417,7 +400,7 @@ def bottom_right_M_solution(table: ' Excel table', a_o_l, psih: ' Variable divid
 def bottom_right_M():
     table, amount_of_lines = gen_file()  # Excel table, amount of lines and values in lines
     psih = random.randint(2, 10)  # Random number that will be divider
-    correct_answer = bottom_right_M_soliution(table, amount_of_lines, psih)
+    correct_answer = bottom_right_M_solution(table, amount_of_lines, psih)
     start(amount_of_lines,'вверх','влево','верхнюю','левую')
     print(
         'Посетив клетку, Робот забирает монету с собой,если её достоинство кратно {};\n это также относится к начальной и конечной клетке маршрута Робота.'.format(
@@ -432,7 +415,7 @@ def bottom_right_M():
     example()
     c_e_1, c_e_2 = example_solution(psih, 2)  # Automatic answer for a table from funcution example
     print('Для указанных входных данных ответом должна быть пара чисел {} и {}.'.format(c_e_1, c_e_2))
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def gen_borders(L: str, corner_N, corner_L, len_N, len_L):
@@ -544,7 +527,7 @@ def top_left_hard():
             amount_of_lines, amount_of_lines))
     example()
     print('Для указанных входных данных ответом должна быть пара чисел 41 и 22.')
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def top_right_hard_solution(table, a_o_l, corner_N, corner_L, len_N, len_L):
@@ -615,7 +598,7 @@ def top_right_hard():
             amount_of_lines, amount_of_lines))
     example()
     print('Для указанных входных данных ответом должна быть пара чисел 35 и 15.')
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def bottom_left_hard_solution(table, a_o_l, corner_N, corner_L, len_N, len_L):
@@ -690,7 +673,7 @@ def bottom_left_hard():
             amount_of_lines, amount_of_lines))
     example()
     print('Для указанных входных данных ответом должна быть пара чисел 35 и 15.')
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def bottom_right_hard_solution(table, a_o_l, corner_N, corner_L, len_N, len_L):
@@ -760,4 +743,4 @@ def bottom_right_hard():
             amount_of_lines, amount_of_lines))
     example()
     print('Для указанных входных данных ответом должна быть пара чисел 41 и 22.')
-    check_answer(correct_answer)
+    return correct_answer

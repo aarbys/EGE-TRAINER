@@ -8,32 +8,17 @@ def question():
     x = int(input())
     if x == 1:
         if veins.randint(1, 2) == 1:
-            mooving_by_xOy()
+            c_a=mooving_by_xOy()
         else:
-            how_many_moves_needs_with_sol()
+            c_a=how_many_moves_needs_with_sol()
     elif x == 2:
         if veins.randint(1, 2) == 1:
-            n_to_r_both_two_bites()
+            c_a=n_to_r_both_two_bites()
         elif veins.randint(1, 2) == 1:
-            n_to_r_two_random_bites()
+            c_a=n_to_r_two_random_bites()
         else:
-            n_to_r_both_sides()
-
-def check_answer(correct_answer):
-    print('Вводите ответ:')
-    x = int(input())
-    if x == correct_answer:
-        print('Поздравляю, верно!')
-    else:
-        print('Вы не правы(')
-        print('Хотите узнать верный ответ? (Да/Нет)')
-        y_n = input().lower()
-        if y_n == 'да':
-            print(correct_answer)
-        elif y_n != 'нет':
-            print('Что?')
-            print('Надеюсь, Вы хотели узнать ответ')
-            print(correct_answer)
+            c_a=n_to_r_both_sides()
+    return c_a
 
 
 def mooving_by_xOy_solution(start_coord, all_vectors):
@@ -74,7 +59,7 @@ def mooving_by_xOy():
     print(
         'На каком расстоянии от начала координат будет находиться исполнитель Чертежник в результате выполнения данного алгоритма?')
     correct_answer = mooving_by_xOy_solution(start_coord, all_vectors)
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def how_many_moves_needs_with_sol():
@@ -93,7 +78,7 @@ def how_many_moves_needs_with_sol():
     print(
         'Укажите наименьшее возможное число команд, которое необходимо для того, чтобы Робот вернулся в ту же клетку, из которой начал движение.')
     correct_answer = abs(a[0] - a[1]) + abs(a[2] - a[3])
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def special_smth(answer, what_we_will_find):
@@ -149,7 +134,7 @@ def n_to_r_both_two_bites():
     print(
         'Укажите {} число {}, которое {} {} и может являться результатом работы алгоритма. В ответе это число запишите в десятичной системе.'.format(
             more_less[0], what_we_will_find, more_less[1], this_is_number))
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def n_to_r_two_random_bites_solution(what_we_will_find, more_less, this_is_number, usable_rest):
@@ -206,7 +191,7 @@ def n_to_r_two_random_bites():
     print(
         'Укажите {} число {}, которое {} {} и может являться результатом работы алгоритма. В ответе это число запишите в десятичной системе.'.format(
             more_less[0], what_we_will_find, more_less[1], this_is_number))
-    check_answer(correct_answer)
+    return correct_answer
 
 
 
@@ -273,4 +258,4 @@ def n_to_r_both_sides():
     print(
         'Укажите {} число {}, которое {} {} и может являться результатом работы алгоритма. В ответе это число запишите в десятичной системе.'.format(
             more_less[0], what_we_will_find, more_less[1], this_is_number))
-    check_answer(correct_answer)
+    return correct_answer

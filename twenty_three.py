@@ -4,25 +4,10 @@ import random
 def question():
     type_of_problem = random.randint(1, 2)
     if type_of_problem == 1:
-        gather_then()
+        c_a=gather_then()
     else:
-        less_then()
-
-def check_answer(correct_answer):
-    x = int(input())
-    if x == correct_answer:
-        print('Правильно')
-    else:
-        print('Неправильно')
-        print('Хотите узнать правильный ответ? (Да/Нет')
-        a = input()
-        if a == 'Да':
-            print(correct_answer)
-        elif a != 'Нет':
-            print('Что? Надеюсь Вы хотели узнать ответ)')
-            print('Всё равно покажу, на всякий случай.', correct_answer[i])
-    exit()
-
+        c_a=less_then()
+    return c_a
 def gather_then_solution(first, seconde, amount_of_conditions, massif_of_value):
     def check_what_is_it(c, massif_of_value, i):
         if '+' in massif_of_value[i]:
@@ -95,7 +80,7 @@ def gather_then():
     first, seconde = random.randint(1, 15), random.randint(40, 79)
     print('Сколько существует программ, которые число', first, 'преобразуют в число', seconde, '?')
     correct_answer = gather_then_solution(first, seconde, amount_of_conditions, massif_of_value)
-    check_answer(correct_answer)
+    return correct_answer
 
 def less_then_solution(first, seconde, amount_of_conditions, massif_of_value):
     def check_what_is_it(c, massif_of_value, i):
@@ -154,4 +139,4 @@ def less_then():
     first, seconde = random.randint(40, 79), random.randint(1, 25)
     print('Сколько существует программ, которые число', first, 'преобразуют в число', seconde, '?')
     correct_answer = less_then_solution(first, seconde, amount_of_conditions, massif_of_value)
-    check_answer(correct_answer)
+    return correct_answer

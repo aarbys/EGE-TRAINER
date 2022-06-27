@@ -8,28 +8,13 @@ def question():
     print('3) Строки различной длины')
     type_of_problem = int(input())
     if type_of_problem == 1:
-        alphabet(type_of_problem)
-    if type_of_problem == 2:
-        alpha3(type_of_problem)
-    if type_of_problem == 3:
-        lines(type_of_problem)
+        c_a=alphabet(type_of_problem)
+    elif type_of_problem == 2:
+        c_a=alpha3(type_of_problem)
+    elif type_of_problem == 3:
+        c_a=lines(type_of_problem)
+    return c_a
 
-
-def check_answer(correct_answer):
-    print('Введите ответ: ')
-    answer = input()
-    if answer == correct_answer:
-        print('Молодец, всё верно!')
-    else:
-        print('К сожалению, это неправильный ответ')
-        print('Хотите узнать правильный ответ? (Да/Нет)')
-        y_n = input()
-        if y_n == 'Да':
-            print(correct_answer)
-        elif y_n != 'Нет':
-            print('Что? Надеюсь Вы не хотели узнать ответ)')
-            print('Всё равно покажу, на всякий случай.', correct_answer)
-    exit()
 
 
 def gen_file(type_of_problem):
@@ -63,7 +48,7 @@ def alphabet(type_of_problem):
     print("Текстовый файл содержит только заглавные буквы латинского алфавита (ABC…Z).")
     print("Определите букву, которая чаще всего встречается в файле сразу после буквы {}.".format(character))
     correct_answer = alphabet_solution(character)
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def alphabet_solution(character):
@@ -106,7 +91,7 @@ def alpha3(type_of_problem):
             "Определите максимальную длину цепочки вида {}... (составленной из фрагментов {}, последний фрагмент может быть неполным).".format(
                 line, symbols[0] + symbols[1] + symbols[2]))
         correct_answer = alpha3_1_solution(symbols)
-        check_answer(correct_answer)
+        return correct_answer
     elif random_type == 2:
         print("Текстовый файл состоит не более чем из 10⁶ символов {}, {} и {}.".format(symbols[0], symbols[1],
                                                                                         symbols[2]))
@@ -114,7 +99,7 @@ def alpha3(type_of_problem):
         print("Определите длину самой длинной последовательности, состоящей из символов {}.".format(random_symbol))
         print("Хотя бы один символ {} находится в последовательности.".format(random_symbol))
         correct_answer = alpha3_2_solution(random_symbol)
-        check_answer(correct_answer)
+        return correct_answer
 
 
 def alpha3_1_solution(symbols):
@@ -161,7 +146,7 @@ def lines(type_of_problem):
         print("Определите количество строк, в которых буква {} встречается чаще, чем буква {}.".format(random_symbol_1,
                                                                                                        random_symbol_2))
         correct_answer = lines_1_solution(random_symbol_1, random_symbol_2)
-        check_answer(correct_answer)
+        return correct_answer
     elif random_type == 2:
         print("Текстовый файл содержит строки различной длины.")
         print("Общий объём файла не превышает 1 Мбайт.")
@@ -172,7 +157,7 @@ def lines(type_of_problem):
                 random_symbol))
         print("Если таких букв несколько, надо взять ту, которая позже стоит в алфавите.")
         correct_answer = lines_2_solution(random_symbol)
-        check_answer(correct_answer)
+        return correct_answer
 
 
 def lines_1_solution(random_symbol_1, random_symbol_2):

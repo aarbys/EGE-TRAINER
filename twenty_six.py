@@ -10,15 +10,16 @@ def question():
     print('5) Посадка деревьев')
     type_of_problem = int(input())
     if type_of_problem == 1:
-        sys_admin(type_of_problem)
+        c_a = sys_admin(type_of_problem)
     elif type_of_problem == 2:
-        discount(type_of_problem)
+        c_a = discount(type_of_problem)
     elif type_of_problem == 3:
-        truck(type_of_problem)
+        c_a = truck(type_of_problem)
     elif type_of_problem == 4:
-        buy_details()
+        c_a = buy_details()
     elif type_of_problem == 5:
-        some_trees(type_of_problem)
+        c_a = some_trees(type_of_problem)
+    return c_a
 
 
 def gen_file(type_of_problem):
@@ -51,28 +52,6 @@ def gen_file(type_of_problem):
             amount_r = random.randint(90000, 100000)
             file.write(str(amount) + ' ' + str(amount_r) + '\n')
     file.close()
-
-
-def check_answer(correct_answers):
-    print('Вводите ответ:')
-    answer = input()
-    answer = answer.split()
-    answer[0], answer[1] = int(answer[0]), int(answer[1])
-    if correct_answers[0] == answer[0] and correct_answers[1] == answer[1]:
-        print('Молодец. 2 Балла')
-    elif correct_answers[0] == answer[0] or correct_answers[1] == answer[1] or (
-            correct_answers[0] == answer[1] and correct_answers[1] == answer[0]):
-        print('Почти получилось. 1 балл.')
-    else:
-        print('Попробуйте в другой раз. 0 баллов')
-        print('Хотите узнать правильный ответ? (Да/Нет)')
-        new_answer = input()
-        if new_answer == 'Да':
-            print(correct_answers)
-        elif new_answer != 'Нет':
-            print('Что? Надеюсь Вы не хотели узнать ответ)')
-            print('Всё равно покажу, на всякий случай.', correct_answer)
-    exit()
 
 
 def sys_admin_solution():
@@ -114,7 +93,7 @@ def sys_admin(type_of_problem):
     print('В следующих N строках находятся значения объёмов файлов каждого пользователя')
     print('(все числа натуральные, не превышающие 100), каждое в отдельной строке.')
     print('Запишите в ответе два числа: сначала наибольшее число пользователей, затем максимальный размер файла')
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def discount_solution(percent, less_then):
@@ -155,7 +134,7 @@ def discount(type_of_problem):
     print('Каждая из следующих N строк содержит одно целое число — стоимость товара в рублях.')
     print(
         'В ответе запишите два целых числа: сначала общую стоимость покупки с учётом скидки, затем стоимость самого дорогого товара, на который будет предоставлена скидка.')
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def truck_solution(range_weight_less, range_weight_gather):
@@ -214,7 +193,7 @@ def truck(type_of_problem):
     print('Каждая из следующих N строк содержит одно целое число — массу груза в кг.')
     print(
         'В ответе запишите два целых числа: сначала максимально возможное количество грузов, затем наибольший возможный груз.')
-    check_answer(correct_answers)
+    return correct_answers
 
 
 def buy_details_solution_3():
@@ -334,7 +313,7 @@ def buy_details():
         print('Все данные в строках входного файла отделены одним пробелом.')
         print(
             'В ответе запишите два целых числа: сначала количество закупленных изделий типа A, затем оставшуюся неиспользованной сумму денег.')
-    check_answer(correct_answer)
+    return correct_answer
 
 
 def gen_file_exc(type_of_question):
@@ -371,7 +350,7 @@ def some_trees_solution(how_many):
     answer = [N_row, N_place]
     f.close()
     if answer == [-1, 100001]:
-        answer=[-1,-1]
+        answer = [-1, -1]
     return answer
 
 
@@ -390,4 +369,4 @@ def some_trees(type_of_problem):
     print(
         'Каждая из следующих N строк содержит два натуральных числа, не превышающих 100 000: номер ряда и номер места для прижившегося саженца.')
     print('Если таких рядов нет, то в ответе укажите -1 и -1')
-    check_answer(correct_answer)
+    return correct_answer
