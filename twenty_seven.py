@@ -427,7 +427,7 @@ def gen_file_medical():
     file_a.close()
 
 
-    amount_b = random.randint(10000000, 10000000)
+    amount_b = random.randint(1000000, 10000000)
     file_b.write(str(amount_b) + '\n')
     prob_b = np.random.randint(1, 1000, amount_b)
 
