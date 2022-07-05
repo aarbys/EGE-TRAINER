@@ -1,7 +1,6 @@
 import random
 import time
-import numpy as np
-import time
+import os
 
 
 def question():
@@ -13,6 +12,7 @@ def question():
     print('5) Количество сумм пар чисел не кратных x')
     print('6) Максимальная сумма из X- чисел не кратное Y')
     print('7) НОВИНКА МАГИСТРАЛЬ')
+    print('8) НОВИНКА РОБОТ ДОСТАВЩИК')
     type_of_problem = int(input())
     if type_of_problem == 1:
         c_a = m_buck(type_of_problem)
@@ -25,50 +25,48 @@ def question():
     elif type_of_problem == 5:
         c_a = a_pair_of_numbers(type_of_problem)
     elif type_of_problem == 7:
-        c_a = medical_company()
+        c_a = medical_company(type_of_problem)
+    elif type_of_problem == 8:
+        c_a = robot_postman(type_of_problem)
     else:
-        c_a = max_sum_of_some_values()
+        c_a = max_sum_of_some_values(type_of_problem)
     return c_a
 
 
 def gen_file(type_of_problem):
-    amount_a = random.randint(150, 9000)
-    amount_b = random.randint(1000000, 10000000)
-    file_a, file_b = open('27_A.txt', 'w'), open('27_B.txt', 'w')
-    z = 0
+    file = open('conditions.txt', 'w')
+
     if type_of_problem == 1:
-        z = 50
+        file.write('0 0 50')
+
     elif type_of_problem == 2:
-        z = 999
+        file.write('0 0 999')
+
     elif type_of_problem == 3 or type_of_problem == 5:
-        z = 5000
+        file.write('0 0 5000')
+
     elif type_of_problem == 4:
-        z = 1000
+        file.write('0 0 1000')
 
-    file_a.write(str(amount_a) + '\n')
-    i = 0
-    x = ''
-    cheats = np.random.randint(1, z, amount_a)
-    while i != amount_a:
-        if amount_a - i != 1:
-            x += str(cheats[i]) + '\n'
-        else:
-            x += str(cheats[i])
-        i += 1
-    file_a.write(x)
-    file_a.close()
+    elif type_of_problem == 6:
+        type_of_columns = random.randint(2, 3)
+        file.write(f'0 {type_of_columns} 1000')
+        return type_of_columns
 
-    i = 0
-    x = ''
-    cheats = np.random.randint(1, z, amount_b)
-    while i != amount_b:
-        if amount_b - i != 1:
-            x += str(cheats[i]) + '\n'
-        else:
-            x += str(cheats[i])
-        i += 1
-    file_b.write(x)
-    file_b.close()
+    elif type_of_problem == 7:
+        file.write('1 0 0')
+
+    elif type_of_problem == 8:
+        file.write('2 0 0')
+
+    file.close()
+
+    os.startfile('generator.exe')
+
+    t = time.time()
+    while True:
+        if time.time() - t >= 4.0:
+            break
 
 
 def m_buck_solution():
@@ -310,29 +308,28 @@ def is_prime(value_of_y):
     for i in range(2, value_of_y // 2 + 1):
         if value_of_y % i == 0:
             return 0
-            break
     return value_of_y
 
 
-def max_sum_of_some_values_solution(k, type_of_collumns):
+def max_sum_of_some_values_solution(k, type_of_columns):
     answers = [0, 0]
-    for cicle in range(2):
-        if cicle == 0:
+    for circle in range(2):
+        if circle == 0:
             f = open('27_A.txt')
         else:
             f = open('27_B.txt')
-        value_of_collumns = int(f.readline())
+        amount_columns = int(f.readline())
         s = 0
         m = 1000
-        if type_of_collumns == 2:
-            for i in range(value_of_collumns):
+        if type_of_columns == 2:
+            for i in range(amount_columns):
                 line = list(map(int, f.readline().split()))
                 s += max(line)
                 if min(line) % k != 0:
                     m = min(m, min(line))
 
         else:
-            for i in range(value_of_collumns):
+            for i in range(amount_columns):
                 line = list(map(int, f.readline().split()))
                 line.sort(reverse=True)
                 s += line[0]
@@ -340,124 +337,38 @@ def max_sum_of_some_values_solution(k, type_of_collumns):
                     m = min(m, line[2])
                 elif line[1] % k != 0:
                     m = min(m, line[1])
+
         if s % k == 0 and m % k != 0:
             s = s - m
         elif s % k == 0 and m % k == 0:
             s = -1
-        answers[cicle] = s
+        answers[circle] = s
         f.close()
     return answers
 
 
-def max_sum_of_some_values():
-    type_of_collumns = random.randint(2, 3)
-    gen_file_exc(type_of_collumns)
+def max_sum_of_some_values(type_of_problem):
+    type_of_columns = gen_file(type_of_problem)
     value_of_y = random.randint(3, 150)
     k = is_prime(value_of_y)
     while k == 0:
         value_of_y = random.randint(3, 150)
         k = is_prime(value_of_y)
-    correct_answer = max_sum_of_some_values_solution(k, type_of_collumns)
+    correct_answer = max_sum_of_some_values_solution(k, type_of_columns)
     print('Паша очень любит заниматься математикой. ')
-    print('Сначала он записывает к себе в тетрадку число n, а потом n раз записывает по', type_of_collumns, ' числа. ')
+    print('Сначала он записывает к себе в тетрадку число n, а потом n раз записывает по', type_of_columns, ' числа. ')
     print(
-        'После этого выбирает по одному числу из каждой строки с учётом того, что сумма выбранных им чисел будет максимальной и не делилась бы на',
+        'После этого выбирает по одному числу из каждой строки с учётом того, \n'
+        'что сумма выбранных им чисел будет максимальной и не делилась бы на',
         value_of_y)
     print('Также Паша НЕ гарантирует, что искомую сумму получить можно. В итоге он говорит нам только результат')
-    print('Дан файл с N строками, в каждой последующей N строке', type_of_collumns, 'числа')
+    print('Дан файл с N строками, в каждой последующей N строке', type_of_columns, 'числа')
     print('Числа натуральные, не превыщают 1000')
     print('Если такой суммы нет, ввести -1')
     return correct_answer
 
 
-def gen_file_exc(type_of_collumns):
-    amount_a = random.randint(150, 9000)
-    amount_b = random.randint(1000000, 10000000) // 2
-    file_a, file_b = open('27_A.txt', 'w'), open('27_B.txt', 'w')
-    file_a.write(str(amount_a) + '\n')
-    file_b.write(str(amount_b) + '\n')
-    for i in range(amount_a):
-        string = ''
-        for l in range(type_of_collumns):
-            string = string + str(random.randint(1, 1000)) + ' '
-        string = string.rstrip(string[-1])
-        file_a.write(string + ' \n')
-    file_a.close()
-
-    for i in range(amount_b):
-        string = ''
-        for l in range(type_of_collumns):
-            string = string + str(random.randint(1, 1000)) + ' '
-        string = string.rstrip(string[-1])
-        file_b.write(string + '\n')
-    file_b.close()
-
-
-
-
-def gen_file_medical():
-    amount_a = random.randint(150, 9000)
-    file_a, file_b = open('27_A.txt', 'w'), open('27_B.txt', 'w')
-
-    file_a.write(str(amount_a) + '\n')
-    prob_a = np.random.randint(1, 1000, amount_a)
-    rnd1 = np.random.randint(1, amount_a * 20, amount_a)
-    rnd1 = list(set(rnd1))
-    random_steps = []
-    for i in range(20, 40):
-        step = random.randint(1, 150)
-        while step in random_steps:
-            step = random.randint(1, 150)
-        random_steps.append(step)
-    rnd1.sort()
-    point = rnd1[-1]
-    for i in range(len(rnd1), amount_a):
-        step = random.choice(random_steps)
-        point += step
-        rnd1.append(point)
-    x = ''
-    i = 0
-    while i != amount_a:
-        if amount_a - i != 1:
-            x += str(rnd1[i]) + ' ' + str(prob_a[i]) + '\n'
-        else:
-            x += str(rnd1[i]) + ' ' + str(prob_a[i])
-        i += 1
-    file_a.write(x)
-    file_a.close()
-
-
-    amount_b = random.randint(1000000, 10000000)
-    file_b.write(str(amount_b) + '\n')
-    prob_b = np.random.randint(1, 1000, amount_b)
-
-    rnd = np.random.randint(1, amount_b * 1000, amount_b)
-    rnd = list(set(rnd))
-    random_steps = []
-    for i in range(20, 40):
-        step = random.randint(1, 150)
-        while step in random_steps:
-            step = random.randint(1, 150)
-        random_steps.append(step)
-    rnd.sort()
-    point = rnd[-1]
-    for i in range(len(rnd), amount_b):
-        step = random.choice(random_steps)
-        point += step
-        rnd.append(point)
-    x = ''
-    i = 0
-    while i != amount_b:
-        if amount_b - i != 1:
-            x += str(rnd[i]) + ' ' + str(prob_b[i]) + '\n'
-        else:
-            x += str(rnd[i]) + ' ' + str(prob_b[i])
-        i += 1
-    file_b.write(x)
-
-
-
-def medical_company_solution(amogus):
+def medical_company_solution(NumberOfTubesInABox):
     answer = []
     for bnm in range(2):
         if bnm == 0:
@@ -467,53 +378,55 @@ def medical_company_solution(amogus):
         n = int(f.readline())
         prob = []
         places = []
-        for i in range(n):
-            x = f.readline().split()
-            places.append(int(x[0]))
-            k = int(x[1]) // amogus
-            if int(x[1]) % amogus != 0:
-                k += 1
-            prob.append(k)
         price = [0] * n
         plus = 0
         minus = 0
-        for i in range(1, n):
-            price[0] += (places[i] - places[0]) * prob[i]
-            plus += prob[i]
+        for i in range(n):
+            x = f.readline().split()
+            places.append(int(x[0]))
+            k = (int(x[1]) // NumberOfTubesInABox) + min(1, int(x[1]) % NumberOfTubesInABox)
+            prob.append(k)
+            if i != 0:
+                price[0] += (places[i] - places[0]) * prob[i]
+                plus += prob[i]
+
         for i in range(1, n):
             minus = minus + prob[i - 1]
-            R = places[i] - places[i - 1]
-            price[i] = price[i - 1] + (R * (minus - plus))
+            r = places[i] - places[i - 1]
+            price[i] = price[i - 1] + (r * (minus - plus))
             plus = plus - prob[i]
         x = price.index(min(price))
         answer.append(places[x])
     return answer
 
 
-def medical_company():
-    amount_test_tube = random.randint(13, 99)
+def medical_company(type_of_problem):
+    number_of_tubes_in_a_box = random.randint(13, 99)
 
-    gen_file_medical()
-
-    correct_answer = medical_company_solution(amount_test_tube)
+    gen_file(type_of_problem)
 
     print('У медицинской компании есть N пунктов приёма биоматериалов на анализ.')
     print(
-        'Все пункты расположены вдоль автомагистрали и имеют номера, соответствующие расстоянию от нулевой отметки до конкретного пункта.')
+        'Все пункты расположены вдоль автомагистрали и имеют номера,\n '
+        'соответствующие расстоянию от нулевой отметки до конкретного пункта.')
     print('Известно количество пробирок, которое ежедневно принимают в каждом из пунктов.')
-    print('Пробирки перевозятв специальных транспортировочных контейнерах вместимостью не более {} штук.'.format(
-        amount_test_tube))
+    print(
+        f'Пробирки перевозятв специальных транспортировочных контейнерах вместимостью не более\n '
+        f'{number_of_tubes_in_a_box} штук.')
     print('Каждый транспортировочный контейнер упаковывается в пункте приёма и вскрывается только в лаборатории.')
     print('Компания планирует открыть лабораторию в одном из пунктов. ')
     print(
-        'Стоимость перевозки биоматериалов равна произведению расстояния от пункта до лаборатории на количество контейнеров с пробирками.')
+        'Стоимость перевозки биоматериалов равна \n'
+        'произведению расстояния от пункта до лаборатории на количество контейнеров с пробирками.')
     print('Общая стоимость перевозки за день равна сумме стоимостей перевозок из каждого пункта в лабораторию.')
     print(
-        'Лабораторию расположили в одном из пунктов приёма биоматериалов таким образом, что общая стоимость доставки биоматериалов из всех пунктов минимальна.')
+        'Лабораторию расположили в одном из пунктов приёма биоматериалов таким образом,\n'
+        ' что общая стоимость доставки биоматериалов из всех пунктов минимальна.')
     print('Определите минимальную общую стоимость доставки биоматериалов из всех пунктов приёма в лабораторию.')
     print('Входные данные:')
     print(
-        'Дано два входных файла (файл A и файл B), каждый из которых в первой строке содержит число N (1 ≤ N ≤ 10 000 000) – количество пунктов приёма биоматериалов.')
+        'Дано два входных файла (файл A и файл B), каждый из которых в первой строке содержит\n'
+        ' число N (1 ≤ N ≤ 10 000 000) – количество пунктов приёма биоматериалов.')
     #
     print('В каждой из следующих N строк находится два числа: номер пункта и количество пробирок в этом пункте.')
     print('Пункты перечислены в порядке их расположения вдоль дороги, начиная от нулевой отметки.')
@@ -521,7 +434,87 @@ def medical_company():
     print('Типовой пример организации данных во входном файле')
     print('6\n1 100\n2 200\n5 4\n7 3\n8 2\n10 190')
     print(
-        'При таких исходных данных и вместимости транспортировочного контейнера, составляющей 96 пробирок,компании выгодно открыть лабораторию в пункте 2.')
+        'При таких исходных данных и вместимости транспортировочного контейнера, '
+        'составляющей 96 пробирок,компании выгодно открыть лабораторию в пункте 2.')
     print('В этом случае сумма транспортных затрат составит: 1*2 + 3*1 + 5*1 + 6*1 + 8*2.')
 
+    correct_answer = medical_company_solution(number_of_tubes_in_a_box)
+    return correct_answer
+
+
+def robot_postman_solution(amount):
+    answer = []
+    for asd in range(2):
+        if asd == 0:
+            f = open('27_A.txt')
+        else:
+            f = open('27_B.txt')
+        n, s, z = map(int, f.readline().split())
+        x = [0] * s
+        price = [0] * s
+        d = []
+        for i in range(1, n):
+            a, b = map(int, f.readline().split())
+            x[a - 1] = b // amount + min(1, b % amount)
+            d.append(a - 1)
+        for i in range(z * 2 + 1):
+            price[z] += x[i]
+        l = 0
+        r = z * 2 + 1
+        for i in range(z + 1, s):
+            price[i] = price[i - 1] + x[r] - x[l]
+            l = (l + 1) % s
+            r = (r + 1) % s
+        price[0] = price[s - 1] + x[r] - x[l]
+        l = (l + 1) % s
+        r = (r + 1) % s
+        for i in range(1,z):
+            price[i] = price[i-1]+x[r]-x[l]
+            l = (l + 1) % s
+            r = (r + 1) % s
+        m=0
+        for i in d:
+            m=max(m,price[i])
+        answer.append(m)
+    return answer
+
+
+def robot_postman(type_of_problem):
+    gen_file(type_of_problem)
+
+    amount=random.randint(1,100)
+    print('На кольцевой автодороге с двусторонним движением находится N многоэтажных жилых домов\n'
+          '(не более одного дома на каждом километре дороги). \n'
+          'Длина кольцевой автодороги равна K км. \n'
+          'Нулевой километр и K-й километр находятся в одной точке. \n'
+          'Жители домов ежедневно получают почту. Которую доставляют роботы-почтальоны. \n'
+          f'Почта упакована в доставочные пакеты, каждый из которых вмещает не более {amount} кг посылок или писем.\n '
+          'Каждый доставочный пакет используется для доставки почты только в один жилой дом, \n'
+          'при этом в каждый дом может быть доставлено не более одного пакета с неполной загрузкой. \n'
+          'Известно, что заряд аккумулятора робота-почтальона позволяет проходить ему не более M км, \n'
+          'заряд аккумулятора для возвращения робота в почтовое отделение не учитывается. \n'
+          'Почтовое отделение открыли в одном из домов таким образом, \n'
+          'чтобы количество доставляемых пакетов с корреспонденцией было максимальным. \n'
+          'В каждом доставочном пакете перевозится почта только для одного дома. \n')
+    print('Определите необходимое количество доставочных пакетов в этом почтовом отделении. \n')
+    print('Дано два входных файла (файл A и файл B), каждый из которых в первой строке содержит три числа\n'
+          ' N, K и M число N (1 ≤ N ≤ 10 000 000, 1 ≤ K ≤ 10 000 000, 1 ≤ M ≤ 10 000 000)\n'
+          ' – количество жилых домов, длина кольцевой дороги в километрах и максимальное расстояние,\n'
+          ' на которое робот может осуществлять доставку почтовых отправлений. \n'
+          'В каждой из следующих N строк находится два числа: номер километра кольцевой автодороги, \n'
+          'на котором расположен жилой дом, и вес ежедневной корреспонденции (все числа натуральные, \n'
+          'вес писем и посылок для каждого дома не превышает 1000 кг). \n'
+          'Числа указаны в порядке расположения домов на автодороге. \n')
+    print('В ответе укажите два числа: сначала значение искомой величины для файла А, затем – для файла В. ')
+    print('Типовой пример организации данных во входном файле')
+    print('5 11 3\n'
+          '1 8\n'
+          '3 7\n'
+          '5 6\n'
+          '7 5\n'
+          '9 3\n')
+    print('При таких исходных данных и вместимости пакета 3 кг \n'
+          'максимальное количество пакетов для доставки корреспонденции \n'
+          'из оптимального расположения почтового отделения составит: 3+3+2 ')
+    correct_answer = robot_postman_solution(amount)
     return correct_answer
