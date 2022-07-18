@@ -1,6 +1,19 @@
 import random
-import time
 import os
+import psutil
+from time import sleep
+
+
+# numba
+# pypy
+# cython
+
+
+def check_process(process_name):
+    for proc in psutil.process_iter():
+        if process_name == proc.name():
+            return True
+    return False
 
 
 def question():
@@ -34,6 +47,9 @@ def question():
 
 
 def gen_file(type_of_problem):
+    generator_file_name = 'generator.exe'
+
+    type_of_columns = 0
     file = open('conditions.txt', 'w')
 
     if type_of_problem == 1:
@@ -51,7 +67,6 @@ def gen_file(type_of_problem):
     elif type_of_problem == 6:
         type_of_columns = random.randint(2, 3)
         file.write(f'0 {type_of_columns} 1000')
-        return type_of_columns
 
     elif type_of_problem == 7:
         file.write('1 0 0')
@@ -60,13 +75,14 @@ def gen_file(type_of_problem):
         file.write('2 0 0')
 
     file.close()
+    # long launch c++ generator
+    assert not check_process(generator_file_name)
+    os.startfile(generator_file_name)
 
-    os.startfile('generator.exe')
+    while check_process(generator_file_name):
+        sleep(0.01)
 
-    t = time.time()
-    while True:
-        if time.time() - t >= 4.0:
-            break
+    return type_of_columns
 
 
 def m_buck_solution():
@@ -323,6 +339,7 @@ def max_sum_of_some_values_solution(k, type_of_columns):
         m = 1000
         if type_of_columns == 2:
             for i in range(amount_columns):
+
                 line = list(map(int, f.readline().split()))
                 s += max(line)
                 if min(line) % k != 0:
@@ -468,13 +485,13 @@ def robot_postman_solution(amount):
         price[0] = price[s - 1] + x[r] - x[l]
         l = (l + 1) % s
         r = (r + 1) % s
-        for i in range(1,z):
-            price[i] = price[i-1]+x[r]-x[l]
+        for i in range(1, z):
+            price[i] = price[i - 1] + x[r] - x[l]
             l = (l + 1) % s
             r = (r + 1) % s
-        m=0
+        m = 0
         for i in d:
-            m=max(m,price[i])
+            m = max(m, price[i])
         answer.append(m)
     return answer
 
@@ -482,7 +499,7 @@ def robot_postman_solution(amount):
 def robot_postman(type_of_problem):
     gen_file(type_of_problem)
 
-    amount=random.randint(1,100)
+    amount = random.randint(1, 100)
     print('На кольцевой автодороге с двусторонним движением находится N многоэтажных жилых домов\n'
           '(не более одного дома на каждом километре дороги). \n'
           'Длина кольцевой автодороги равна K км. \n'

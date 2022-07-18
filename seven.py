@@ -8,7 +8,8 @@ def question():
     print('3) Перезапись файла')
     print('4) Передача текстового файла по кабелю связи')
     print('5) Толя передает файл Мише')
-    print('6) Передача файла из города А в С')
+    print('6) Сжатый файл')
+    print('7) Прозрачность изображения')
     type_of_problem = int(input())
     if type_of_problem == 1:
         c_a = file_A_to_C()
@@ -22,11 +23,15 @@ def question():
     elif type_of_problem == 4:
         c_a = how_many_symbols()
     elif type_of_problem == 5:
-        c_a = tolya_to_misha()
+        c_a = anatoly_to_misha()
+    elif type_of_problem == 6:
+        c_a = compressed_file()
+    elif type_of_problem == 7:
+        c_a = rgba_format_png()
     return c_a
 
 
-def file_A_to_C_solution(time: int, resolution: int, frequency: int, speed: int, usable_phrases: list):
+def file_A_to_C_solution(time: int, resolution: float, frequency: float, speed: int, usable_phrases: list):
     weight = 1
     s_time = 1
     if usable_phrases[0] == 'выше':
@@ -81,8 +86,8 @@ def picture_w_solution(resolution: list, color: int, type_answer: str):
 
 
 def picture_w():
-    grades_2 = [2 ** i for i in range(0, 22)]
-    resolution = [r.choice(grades_2), r.randint(2, 33554432)]
+    power_2 = [2 ** i for i in range(0, 22)]
+    resolution = [r.choice(power_2), r.randint(2, 33554432)]
     color = r.randint(2, 33554432)
     type_answer = r.choice(['Кбайт', 'битах', 'Мбайт', 'байт', 'Гбайт'])
     correct_answer = picture_w_solution(resolution, color, type_answer)
@@ -104,13 +109,13 @@ def picture_c_solution(number: int, type_save: str, resolution: list):
 
 
 def picture_c():
-    grades_2 = [2 ** i for i in range(0, 22)]
-    resolution = [r.choice(grades_2), r.randint(2, 33554432)]
+    power_2 = [2 ** i for i in range(0, 22)]
+    resolution = [r.choice(power_2), r.randint(2, 33554432)]
     type_save = r.choice(['Кбайт', 'битах', 'Мбайт', 'байт', 'Гбайт'])
     number = r.randint(1, 2 ** 15)
     print(
-        f'Автоматическая фотокамера производит растровые изображения размером {resolution[0]}x{resolution[1]} пикселей. '
-        f'При этом объём файла с изображением не может превышать {number} {type_save}, упаковка данных не производится. '
+        f'Автоматическая фотокамера производит растровые изображения размером {resolution[0]}x{resolution[1]} пикселей.'
+        f'При этом объём файла с изображением не может превышать {number} {type_save}, упаковка данных не производится.'
         'Какое максимальное количество цветов можно использовать в палитре?')
     answer = picture_c_solution(number, type_save, resolution)
     return 2 ** answer
@@ -139,7 +144,7 @@ def size_conversion(type_save: str, more_less: 'More = 1 Less = else'):
     return weight
 
 
-def decoding(type_record):
+def decoding(type_record: str):
     if 'стерео' in type_record:
         type_record = 2
     elif 'моно' in type_record:
@@ -159,14 +164,15 @@ def recording_file_solution(weight: int, type_save: str, bites: int, frequency: 
 
 
 def recording_file():
-    grades_2 = [2 ** i for i in range(0, 22)]
+    power_2 = [2 ** i for i in range(0, 22)]
     type_record = r.choice(['двухканальная (стерео)', 'одноканальная (моно)', 'четырехканальная (квадро)'])
     frequency = r.randint(10, 100)
-    bites = r.choice(grades_2)
+    bites = r.choice(power_2)
     weight = r.randint(2, 1000)
     type_save = r.choice(['Кбайт', 'Мбайт', 'байт', 'Гбайт'])
     print(
-        f'Производилась {type_record} звукозапись с частотой дискретизации {frequency} кГц и {bites}-битным разрешением.\n '
+        f'Производилась {type_record} звукозапись\n'
+        f'с частотой дискретизации {frequency} кГц и {bites}-битным разрешением.\n '
         f'В результате был получен файл размером {weight} {type_save}, сжатие данных не производилось. \n'
         f'Определите приблизительно, сколько времени (в минутах) проводилась запись. \n'
         f'В качестве ответа укажите ближайшее к времени записи целое число.')
@@ -176,12 +182,12 @@ def recording_file():
 
 def rewriting_audio_solution(type_record_1: str, type_record_2: str, weight: int, type_save: str, less_more_1: str,
                              less_more_2: str,
-                             amount_less_more_1: int, amount_less_more_2: int, type_answer: str):
-    def less_more_sol(index: int, value: int, argument: str):
+                             amount_less_more_1: float, amount_less_more_2: float, type_answer: str):
+    def less_more_sol(coefficient, value: float, argument: str):
         if argument == 'выше':
-            return index * value
+            return coefficient * value
         else:
-            return index / value
+            return coefficient / value
 
     type_record_1 = decoding(type_record_1)
     type_record_2 = decoding(type_record_2)
@@ -231,11 +237,11 @@ def how_many_symbols_solution(code: int, time: int, speed: int):
 
 
 def how_many_symbols():
-    grades_2 = [2 ** i for i in range(0, 22)]
-    speed = r.choice(grades_2)
-    code = r.choice(grades_2)
+    power_2 = [2 ** i for i in range(0, 22)]
+    speed = r.choice(power_2)
+    code = r.choice(power_2)
     while code > speed:
-        code = r.choice(grades_2)
+        code = r.choice(power_2)
     time = r.randint(1, 15000)
     print(f'Скорость передачи данных через модемное соединение равна {speed} бит/с. \n'
           f'Передача текстового файла через это соединение заняла {time} с. \n'
@@ -245,52 +251,167 @@ def how_many_symbols():
     return correct_answer
 
 
-def tolya_to_misha(first_grade: int, second_grade: int, files_weight: int, bites_before_send: int):
+def anatoly_to_misha_solution(first_power: int, second_power: int, files_weight: int, bites_before_send: int):
     size = size_conversion('Мбайт', 1) * files_weight
-    delay_time = size_conversion('Кбайт', 1) * bites_before_send / (2 ** first_grade)
-    time_for_misha = size / (2 ** second_grade)
+    delay_time = size_conversion('Кбайт', 1) * bites_before_send / (2 ** first_power)
+    time_for_misha = size / (2 ** second_power)
     return delay_time + time_for_misha
 
 
-def tolya_to_misha():
-    grades_2 = [i for i in range(0, 22)]
+def anatoly_to_misha():
+    power_2 = [i for i in range(0, 22)]
     files_weight = r.randint(1, 10000)
-    first_grade = r.choice(grades_2)
-    second_grade = r.choice(grades_2)
-    bites_before_send = 2 ** r.choice(grades_2)
-    while second_grade >= first_grade:
-        second_grade = r.choice(grades_2)
-    print('У Толи есть доступ к сети Интернет по высокоскоростному одностороннему радиоканалу, '
-          f'обеспечивающему скорость получения информации 2 в степени ({first_grade})  бит в секунду. '
-          'У Миши нет скоростного доступа в Интернет, но есть возможность получать информацию от Толи '
-          f'по низкоскоростному телефонному каналу со средней скоростью 2 в степени ({second_grade})  бит в секунду.'
-          f' Миша договорился с Толей, что тот будет скачивать для него данные объемом {files_weight} Мбайт по высокоскоростному '
+    first_power = r.choice(power_2)
+    second_power = r.choice(power_2)
+    bites_before_send = 2 ** r.choice(power_2)
+    while second_power >= first_power:
+        second_power = r.choice(power_2)
+    print('У Толи есть доступ к сети Интернет по высокоскоростному одностороннему радиоканалу,\n '
+          f'обеспечивающему скорость получения информации 2 в степени ({first_power})  бит в секунду.\n '
+          'У Миши нет скоростного доступа в Интернет, но есть возможность получать информацию от Толи\n '
+          f'по низкоскоростному телефонному каналу со средней скоростью 2 в степени ({second_power})  бит в секунду.\n'
+          f' Миша договорился с Толей, что тот будет скачивать для него данные\n'
+          f'объемом {files_weight} Мбайт по высокоскоростному \n'
           'каналу и ретранслировать их Мише по низкоскоростному каналу')
     print(
-        f'Компьютер Толи может начать ретрансляцию данных не раньше, чем им будут получены первые {bites_before_send} Кбайт этих данных. '
-        'Каков минимально возможный промежуток времени (в секундах) '
+        f'Компьютер Толи может начать ретрансляцию данных не раньше,\n'
+        f'чем им будут получены первые {bites_before_send} Кбайт этих данных. \n'
+        'Каков минимально возможный промежуток времени (в секундах) \n'
         'с момента начала скачивания Толей данных до полного их получения Мишей?')
-    correct_answer = tolya_to_misha(first_grade, second_grade, files_weight, bites_before_send)
+    correct_answer = anatoly_to_misha_solution(first_power, second_power, files_weight, bites_before_send)
+    return correct_answer
 
 
-def txt_file_solution(amount_symbols: int, first_bites: int, seconde_bites: int):
+def txt_file_solution(amount_symbols: int, first_bites: int, second_bites: int):
     f = amount_symbols * first_bites
-    s = amount_symbols * seconde_bites
-    answer = f -s
+    s = amount_symbols * second_bites
+    answer = f - s
     return answer
 
 
 def txt_file():
-    grades_2 = [2 ** i for i in range(0, 22)]
-    amount_symbols = r.choice(grades_2)
-    first_bites = r.choice(grades_2)
+    power_2 = [2 ** i for i in range(0, 22)]
+    amount_symbols = r.choice(power_2)
+    first_bites = r.choice(power_2)
     while first_bites == 2 ** 22:
-        first_bites = r.choice(grades_2)
-    seconde_bites = r.choice(grades_2)
-    while seconde_bites <= 2 ** 22:
-        seconde_bites = r.choice(grades_2)
+        first_bites = r.choice(power_2)
+    second_bites = r.choice(power_2)
+    while second_bites <= 2 ** 22:
+        second_bites = r.choice(power_2)
     print(f'Текстовый документ, состоящий из {amount_symbols} символов, хранился в {first_bites}-битной кодировке. \n'
-          f'Этот документ был преобразован в {seconde_bites}-битную кодировку. \n'
+          f'Этот документ был преобразован в {second_bites}-битную кодировку. \n'
           f'Укажите, какое дополнительное количество бит потребуется для хранения документа. \n'
           f'В ответе запишите только число.')
-    correct_answer = txt_file_solution(amount_symbols, first_bites, seconde_bites)
+    correct_answer = txt_file_solution(amount_symbols, first_bites, second_bites)
+    return correct_answer
+
+
+def compressed_file_solution(weight: int, type_save: str, resolution: list, percent: int):
+    res_mult_percent = resolution[0] * resolution[1] * (100 - percent) / 100
+    size = size_conversion(type_save, 1) * weight
+    i = int(size / res_mult_percent)
+    try:
+        answer = 2 ** i
+        if answer > 2**20:
+            return -1
+        else:
+            return answer
+    except OverflowError:
+        return -1
+
+
+def compressed_file():
+    while True:
+        power_2 = [2 ** i for i in range(22)]
+        resolution = [r.choice(power_2), r.randint(2, 33554432)]
+        resolution.sort(reverse=True)
+        weight = r.randint(1, 1000)
+        type_save = r.choice(['Кбайт', 'Мбайт', 'байт', 'Гбайт'])
+        percent = r.randint(10, 70)
+        answer = compressed_file_solution(weight, type_save, resolution, percent)
+        if answer != -1:
+            break
+    print(
+        f'Для хранения произвольного сжатого растрового изображения размером {resolution[0]}x{resolution[1]} пикселей\n'
+        f'отведено {weight} {type_save} памяти без учёта размера заголовка файла.\n'
+        'Для кодирования цвета каждого пикселя используется одинаковое количество бит,\n'
+        'коды пикселей записываются в файл один за другим без промежутков.\n'
+        'После сохранения информации о пискселях изображение сжимается.\n'
+        f'Размер итогового файла после сжатия на {percent}% меньше исходного.\n'
+        'Какое максимальное количество цветов можно использовать в изображении?')
+    return answer
+
+
+def compressed_file_v2_solution(weight: int, type_save: str, resolution: list, percent: int):
+    res = resolution[0] * resolution[1]
+    size = size_conversion(type_save, 1) * weight * ((100 + percent) / 100)
+    i = int(size / res)
+    try:
+        answer = 2 ** i
+        if answer > 2**20:
+            return -1
+        else:
+            return answer
+    except OverflowError:
+        return -1
+
+
+def compressed_file_v2():
+    while True:
+        power_2 = [2 ** i for i in range(22)]
+        resolution = [r.choice(power_2), r.randint(2, 33554432)]
+        resolution.sort(reverse=True)
+        weight = r.randint(1, 1000)
+        type_save = r.choice(['Кбайт', 'Мбайт', 'байт', 'Гбайт'])
+        percent = r.randint(10, 70)
+        answer = compressed_file_v2_solution(weight, type_save, resolution, percent)
+        if answer != -1:
+            break
+    print(
+        f'Для хранения сжатого произвольного растрового изображения размером {resolution[0]}x{resolution[1]} пикселей\n'
+        f'отведено {weight} {type_save} памяти без учёта размера заголовка файла.\n'
+        f'Файл оригинального изображения больше сжатого на {percent}%.\n'
+        'Для кодирования цвета каждого пикселя используется одинаковое количество бит,\n'
+        'коды пикселей записываются в файл один за другим без промежутков.\n'
+        'Какое максимальное количество цветов можно использовать в изображении?')
+    return answer
+
+
+def rgba_format_png_solution(weight: int, type_save: str, resolution: list, amount_bits: int):
+    res = resolution[0] * resolution[1]
+    size = size_conversion(type_save, 1) * weight
+    i = int(size / res) - amount_bits
+    if i < 0:
+        return -1
+    try:
+        answer = 2 ** i
+        if answer > 2**20:
+            return -1
+        else:
+            return answer
+    except OverflowError:
+        return -1
+
+    # res * (i+a_b) = size
+    # i+a_b = size/res
+    #
+
+
+def rgba_format_png():
+    while True:
+        power_2 = [2 ** i for i in range(22)]
+        resolution = [r.choice(power_2), r.randint(2, 33554432)]
+        resolution.sort(reverse=True)
+        weight = r.randint(1, 1000)
+        type_save = r.choice(['Кбайт', 'Мбайт', 'байт', 'Гбайт'])
+        amount_bits = r.randint(2, 32)
+        answer = rgba_format_png_solution(weight, type_save, resolution, amount_bits)
+        if answer != -1:
+            break
+    print(f'Для хранения произвольного растрового изображения размером {resolution[0]}x{resolution[1]} пикселей\n'
+          f'отведено {weight} {type_save} памяти без учёта размера заголовка файла.\n'
+          f'При кодировании каждого пикселя используется {amount_bits} бит для определения степени прозрачности\n'
+          'и одинаковое количество бит для указания его цвета.\n'
+          'Коды пикселей записываются в файл один за другим без промежутков.\n'
+          'Какое максимальное количество цветов (без учета степени прозрачности) можно использовать в изображении?')
+    return answer
