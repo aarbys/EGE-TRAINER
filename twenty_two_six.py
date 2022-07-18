@@ -49,8 +49,6 @@ def output_code(x: int, connection_to_BD: int):
     db_langs = ['c', 'python', 'basic', 'algorithm', 'pascal']
     image_offset = 45
 
-    print(f'{x} is X')
-
     def create_four_positions(ime: Image):
 
         def create_lines(max_wid: int, k_w: int, max_hei: int, k_h: int):  # k - koef
@@ -184,6 +182,7 @@ def output_code(x: int, connection_to_BD: int):
         img = last_img.copy()
 
     img.show()
+    img.save(f'problem_{connection_to_BD}.png')
 
 
 if __name__ == '__main__':
