@@ -6,12 +6,12 @@ from PIL import ImageFont
 
 
 def question_6():
-    amount_of_id = None
+    amount_of_id = 0
     con = sl.connect('six.db')
     d = con.execute("SELECT COUNT(id) from PROBLEMS")
     for c in d:
         amount_of_id = int(*c)
-    x = random.randint(89, 89)
+    x = random.randint(1, amount_of_id)
     print('Ниже на нескольких языках будет написан алгоритм.')
     with con:
         output = con.execute("SELECT problem_txt from PROBLEMS WHERE id == {}".format(x))
@@ -26,7 +26,7 @@ def question_6():
 
 
 def question_22():
-    amount_of_id = None
+    amount_of_id = 0
     con = sl.connect('twenty_two.db')
     d = con.execute("SELECT COUNT(id) from PROBLEMS")
     for c in d:
@@ -45,11 +45,15 @@ def question_22():
     return correct_answer
 
 
-def output_code(x, connection_to_BD):
+def output_code(x: int, connection_to_BD: int):
+    db_langs = ['c', 'python', 'basic', 'algorithm', 'pascal']
+    image_offset = 45
 
-    def create_4_position(ime):
+    print(f'{x} is X')
 
-        def create_lines(max_wid, k_w, max_hei, k_h):
+    def create_four_positions(ime: Image):
+
+        def create_lines(max_wid: int, k_w: int, max_hei: int, k_h: int):  # k - koef
             img1 = ImageDraw.Draw(ime)
             img1.line([(max_wid - k_w, 0), (max_wid - k_w, image_height)], fill=(0, 0, 0), width=10)
             img1.line([(0, max_hei - k_h), (image_width, max_hei - k_h)], fill=(0, 0, 0), width=10)
@@ -76,18 +80,16 @@ def output_code(x, connection_to_BD):
         create_lines(m_w, 35, m_h, 45 - height)
 
         m_h += m_h_in_3_4_txt + height
-        ime = paste_image(ime, image_to_draw[0], 20, height)
-        ime = paste_image(ime, image_to_draw[1], m_w+20, height)
-        ime = paste_image(ime, image_to_draw[3], 20, m_h)
-        ime = paste_image(ime, image_to_draw[4], m_w+20, m_h)
+        ime.paste(image_to_draw[0], (20, height))
+        ime.paste(image_to_draw[1], (m_w + 20, height))
+        ime.paste(image_to_draw[3], (20, m_h))
+        ime.paste(image_to_draw[4], (m_w + 20, m_h))
 
-    prob_lang = ['c', 'python', 'basic', 'algorithm', 'pascal']
-
-    def finding_resolution_and_font_type(txt):
+    def finding_resolution_and_font_type(txt: str):
         image = Image.new('RGB', (200, 100), (255, 255, 255))
         dr = ImageDraw.Draw(image)
         f_t = ImageFont.truetype("arial.ttf", 65)
-        t_wi, t_he = dr.textsize(txt, font=f_t)
+        trash_1, trash_2, t_wi, t_he, = dr.textbbox(xy=(0, 0), text=txt, font=f_t)
         return t_wi, t_he, f_t
 
     def taking_problem():
@@ -96,35 +98,30 @@ def output_code(x, connection_to_BD):
         else:
             con = sl.connect('six.db')
         strings_out = []
-        for j in prob_lang:
+        for j in db_langs:
             with con:
-                output = con.execute("SELECT {} from PROBLEMS WHERE id == {}".format(j, x))
+                output = con.execute(f"SELECT {j} from PROBLEMS WHERE id == {x}")
                 for v in output:
                     b = str(*v).replace(' ', ' ')
+                    b = b.replace('\r', '')
                     strings_out.append(b)
         return strings_out
 
-    def paste_image(main_image: Image, image_to_paste, coordinate_x, coordinate_y):
-        main_image.paste(image_to_paste, (coordinate_x, coordinate_y))
-        return main_image
-
     strings = taking_problem()
     image_to_draw = []
-    flag_for_none = False
-    for k in range(len(strings)):
-        text = strings[k]
+    is_basic_required = True
+    for text in strings:
+
         text_width, text_height, font_type = finding_resolution_and_font_type(text)
 
-        im = Image.new('RGB', (text_width + 45, text_height + 45), (255, 255, 255))
+        im = Image.new('RGB', (text_width + image_offset, text_height + image_offset), (255, 255, 255))
 
-        draw = ImageDraw.Draw(im)
-
-        d = draw
+        d = ImageDraw.Draw(im)
 
         d.text(xy=(2, 2), text=text, fill=(0, 0, 0), font=font_type)
 
         if text == 'None':
-            flag_for_none = True
+            is_basic_required = False
         image_to_draw.append(im)
 
     resol = []
@@ -145,8 +142,8 @@ def output_code(x, connection_to_BD):
         else:
             max_width_2 = max(max_width_2, i.width)
 
-    image_height = max_height_1 + max_height_2 + 300
-    image_width = max_width_1 + max_width_2 + 300
+    image_height = max_height_1 + max_height_2 + 300  # leave space for languages
+    image_width = max_width_1 + max_width_2 + 300  # leave space for languages
     img = Image.new('RGB', (image_width, image_height), (255, 255, 255))
 
     text_to_draw_image = []
@@ -164,13 +161,13 @@ def output_code(x, connection_to_BD):
         d.text(xy=(2, t_h - 2), text=k, fill=(0, 0, 0), font=font_type, anchor='lb')
         text_to_draw_image.append(im)
 
-    if flag_for_none:
-        create_4_position(img)
-    else:
-        create_4_position(img)
+    create_four_positions(img)
+
+    if is_basic_required:
         max_h = max(text_to_draw_image[0].height, text_to_draw_image[1].height)
 
         image_width_last = image_width + image_to_draw[2].width + 75
+
         last_img = Image.new('RGB', (image_width_last, image_height), (255, 255, 255))
         img_for_line = ImageDraw.Draw(last_img)
 
