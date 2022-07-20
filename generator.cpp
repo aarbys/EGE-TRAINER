@@ -10,7 +10,6 @@ using namespace std;
 int main()
 {
 	std::ifstream conditions_file("conditions.txt");
-	time_t start = time(NULL);
 	int MOP, columns, max_value;
 	conditions_file >> MOP >> columns >> max_value;
 	conditions_file.close();
