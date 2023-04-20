@@ -180,54 +180,63 @@ def recording_file():
     return answer
 
 
-def rewriting_audio_solution(type_record_1: str, type_record_2: str, weight: int, type_save: str, less_more_1: str,
-                             less_more_2: str,
-                             amount_less_more_1: float, amount_less_more_2: float, type_answer: str):
-    def less_more_sol(coefficient, value: float, argument: str):
-        if argument == 'выше':
-            return coefficient * value
+class AudioRewriter:
+    def __init__(self):
+        self.type_record_1 = r.choice(['стерео', 'моно', 'квадро'])
+        self.type_record_2 = r.choice(['стерео', 'моно', 'квадро'])
+
+        self.weight = r.randint(1, 100)
+
+        self.type_save_str = r.choice(['Кбайт', 'Мбайт', 'байт', 'Гбайт'])
+        self.type_save_value = size_conversion(self.type_save_str, 1)
+
+        self.less_more_1 = r.choice(['выше', 'ниже'])
+        self.less_more_2 = r.choice(['выше', 'ниже'])
+
+        self.amount_less_more_1 = r.randint(10, 70) / 10
+        self.amount_less_more_2 = r.randint(10, 70) / 10
+
+        self.type_answer_str = r.choice(['Кбайт', 'Мбайт', 'байт', 'Гбайт'])
+        self.type_answer_value = size_conversion(self.type_answer_str, 1)
+
+    def rewriting_audio_solution(self):
+
+        def less_more_sol(coefficient, value: float, argument: str):
+            if argument == 'выше':
+                return coefficient * value
+            else:
+                return coefficient / value
+
+        type_record_1 = decoding(self.type_record_1)
+        type_record_2 = decoding(self.type_record_2)
+        weight = self.weight * self.type_save_value
+        index = 1
+        if type_record_1 > type_record_2:
+            index /= (type_record_1 / type_record_2)
         else:
-            return coefficient / value
+            index *= (type_record_2 / type_record_1)
 
-    type_record_1 = decoding(type_record_1)
-    type_record_2 = decoding(type_record_2)
-    type_save = size_conversion(type_save, 1)
-    type_answer = size_conversion(type_answer, 1)
-    weight = weight * type_save
-    index = 1
-    if type_record_1 > type_record_2:
-        index /= (type_record_1 / type_record_2)
-    else:
-        index *= (type_record_2 / type_record_1)
+        index = less_more_sol(index, self.amount_less_more_1, self.less_more_1)
+        index = less_more_sol(index, self.amount_less_more_2, self.less_more_2)
+        answer = int((weight * index) / self.type_answer_value)
+        return answer
 
-    index = less_more_sol(index, amount_less_more_1, less_more_1)
-    index = less_more_sol(index, amount_less_more_2, less_more_2)
-    # original_weight = type_record_1 * time * bites * frequency* type_save
-    answer = int((weight * index) / type_answer)
-    return answer
+    def print_problem(self):
+        print(f'Музыкальный фрагмент был записан в формате {self.type_record_1},\n '
+              f'оцифрован и сохранён в виде файла без использования сжатия данных. \n'
+              f'Размер полученного файла без учёта размера заголовка файла — {self.weight} {self.type_save_str}. \n'
+              f'Затем тот же музыкальный фрагмент был записан повторно в формате {self.type_record_2} и \n'
+              f'оцифрован с разрешением в {self.amount_less_more_1} раза {self.less_more_1} и \n'
+              f'частотой дискретизации в {self.amount_less_more_2} раза {self.less_more_2}, \n'
+              f'чем в первый раз. Сжатие данных не производилось. Укажите размер в {self.type_answer_str} файла,\n'
+              'полученного при повторной записи. В ответе запишите только целое число, \n'
+              'единицу измерения писать не нужно. Искомый объём не учитывает размера заголовка файла.\n')
 
 
 def rewriting_audio():
-    type_record_1 = r.choice(['стерео', 'моно', 'квадро'])
-    type_record_2 = r.choice(['стерео', 'моно', 'квадро'])
-    weight = r.randint(1, 100)
-    type_save = r.choice(['Кбайт', 'Мбайт', 'байт', 'Гбайт'])
-    less_more_1 = r.choice(['выше', 'ниже'])
-    less_more_2 = r.choice(['выше', 'ниже'])
-    amount_less_more_1 = r.randint(10, 70) / 10
-    amount_less_more_2 = r.randint(10, 70) / 10
-    type_answer = r.choice(['Кбайт', 'Мбайт', 'байт', 'Гбайт'])
-    print(f'Музыкальный фрагмент был записан в формате {type_record_1},\n '
-          f'оцифрован и сохранён в виде файла без использования сжатия данных. \n'
-          f'Размер полученного файла без учёта размера заголовка файла — {weight} {type_save}. \n'
-          f'Затем тот же музыкальный фрагмент был записан повторно в формате {type_record_2} и \n'
-          f'оцифрован с разрешением в {amount_less_more_1} раза {less_more_1} и \n'
-          f'частотой дискретизации в {amount_less_more_2} раза {less_more_2}, \n'
-          f'чем в первый раз. Сжатие данных не производилось. Укажите размер в {type_answer} файла,\n'
-          'полученного при повторной записи. В ответе запишите только целое число, \n'
-          'единицу измерения писать не нужно. Искомый объём не учитывает размера заголовка файла.\n')
-    correct_answer = rewriting_audio_solution(type_record_1, type_record_2, weight, type_save, less_more_1,
-                                              less_more_2, amount_less_more_1, amount_less_more_2, type_answer)
+    ar = AudioRewriter()
+    ar.print_problem()
+    correct_answer = ar.rewriting_audio_solution()
     return correct_answer
 
 
@@ -312,7 +321,7 @@ def compressed_file_solution(weight: int, type_save: str, resolution: list, perc
     i = int(size / res_mult_percent)
     try:
         answer = 2 ** i
-        if answer > 2**20:
+        if answer > 2 ** 20:
             return -1
         else:
             return answer
@@ -336,7 +345,7 @@ def compressed_file():
         f'отведено {weight} {type_save} памяти без учёта размера заголовка файла.\n'
         'Для кодирования цвета каждого пикселя используется одинаковое количество бит,\n'
         'коды пикселей записываются в файл один за другим без промежутков.\n'
-        'После сохранения информации о пискселях изображение сжимается.\n'
+        'После сохранения информации о пикселях изображение сжимается.\n'
         f'Размер итогового файла после сжатия на {percent}% меньше исходного.\n'
         'Какое максимальное количество цветов можно использовать в изображении?')
     return answer
@@ -348,7 +357,7 @@ def compressed_file_v2_solution(weight: int, type_save: str, resolution: list, p
     i = int(size / res)
     try:
         answer = 2 ** i
-        if answer > 2**20:
+        if answer > 2 ** 20:
             return -1
         else:
             return answer
@@ -385,7 +394,7 @@ def rgba_format_png_solution(weight: int, type_save: str, resolution: list, amou
         return -1
     try:
         answer = 2 ** i
-        if answer > 2**20:
+        if answer > 2 ** 20:
             return -1
         else:
             return answer

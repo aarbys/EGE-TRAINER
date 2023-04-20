@@ -1,4 +1,3 @@
-import random
 import random as veins
 
 
@@ -8,20 +7,20 @@ def question():
     x = int(input())
     if x == 1:
         if veins.randint(1, 2) == 1:
-            c_a=mooving_by_xOy()
+            c_a = moving_by_xOy()
         else:
-            c_a=how_many_moves_needs_with_sol()
+            c_a = how_many_moves_needs_with_sol()
     elif x == 2:
         if veins.randint(1, 2) == 1:
-            c_a=n_to_r_both_two_bites()
+            c_a = n_to_r_both_two_bites()
         elif veins.randint(1, 2) == 1:
-            c_a=n_to_r_two_random_bites()
+            c_a = n_to_r_two_random_bites()
         else:
-            c_a=n_to_r_both_sides()
+            c_a = n_to_r_both_sides()
     return c_a
 
 
-def mooving_by_xOy_solution(start_coord, all_vectors):
+def moving_by_xOy_solution(start_coord, all_vectors):
     final_result = start_coord  # Can be another output
     for i in range(len(all_vectors)):
         final_result[0] += all_vectors[i][0]
@@ -30,7 +29,7 @@ def mooving_by_xOy_solution(start_coord, all_vectors):
     return answer
 
 
-def mooving_by_xOy():
+def moving_by_xOy():
     print('Исполнитель Чертежник имеет перо, которое можно поднимать, опускать и перемещать.')
     print('При перемещении опущенного пера за ним остается след в виде прямой линии.')
     print('У исполнителя существуют следующие команды:')
@@ -58,7 +57,7 @@ def mooving_by_xOy():
     all_vectors.append(vector)
     print(
         'На каком расстоянии от начала координат будет находиться исполнитель Чертежник в результате выполнения данного алгоритма?')
-    correct_answer = mooving_by_xOy_solution(start_coord, all_vectors)
+    correct_answer = moving_by_xOy_solution(start_coord, all_vectors)
     return correct_answer
 
 
@@ -176,7 +175,7 @@ def n_to_r_two_random_bites():
             probably.remove(asd)
 
         correct_answer = n_to_r_two_random_bites_solution(what_we_will_find, more_less, this_is_number, usable_rest)
-        if correct_answer !=0:
+        if correct_answer != 0:
             flag = False
 
     print('На вход алгоритма подаётся натуральное число N. Алгоритм строит по нему новое число R следующим образом.')
@@ -194,10 +193,9 @@ def n_to_r_two_random_bites():
     return correct_answer
 
 
-
 def n_to_r_both_sides_solution(what_we_will_find, more_less, this_is_number, cht_build, nch_build):
     answer = 0
-    while answer == 0 and this_is_number > 0 and this_is_number<1000:
+    while answer == 0 and this_is_number > 0 and this_is_number < 1000:
         if more_less == ['минимальное', 'превышает']:
             this_is_number += 1
             st = bin(this_is_number)
@@ -243,7 +241,7 @@ def n_to_r_both_sides():
         nch_build.append(k)
         nch_build.append(x)
         correct_answer = n_to_r_both_sides_solution(what_we_will_find, more_less, this_is_number, cht_build, nch_build)
-        if correct_answer != 0 :
+        if correct_answer != 0:
             flag = False
     print('На вход алгоритма подаётся натуральное число N. Алгоритм строит по нему новое число R следующим образом.')
     print('1) Строится двоичная запись числа N.')

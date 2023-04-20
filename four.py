@@ -1,8 +1,6 @@
 import random as r
 from PIL import Image, ImageDraw, ImageFont
 import networkx as nx
-import io
-import matplotlib.pyplot as plt
 
 
 def question():
@@ -11,11 +9,11 @@ def question():
     print('3) Минимальная длина кодов')
     x = int(input())
     if x == 1:
-        c_a=word_to_n_system()
+        c_a = word_to_n_system()
     elif x == 2:
-        c_a=decoding_information()
+        c_a = decoding_information()
     else:
-        c_a=lesset_code()
+        c_a = shortest_code()
     return c_a
 
 
@@ -104,11 +102,11 @@ def decoding_information():
     return correct_answer
 
 
-def lesset_code_solution(g, their_codes, all_weights):
+def shortest_code_solution(g, their_codes, all_weights):
     answer = 0
     if len(all_weights) == 1:
         answer += (int(all_weights[0]) + 2) * 2
-    elif all_weights[0]+2 < all_weights[1]:
+    elif all_weights[0] + 2 < all_weights[1]:
         answer += (int(all_weights[0]) + 2) * 2
     else:
         answer += int(all_weights[0]) + int(all_weights[1]) + 2
@@ -118,13 +116,13 @@ def lesset_code_solution(g, their_codes, all_weights):
     return answer
 
 
-def lesset_code():
-    amount_letters, their_codes, all_weights = lesset_code_true_generation()
+def shortest_code():
+    amount_letters, their_codes, all_weights = shortest_code_true_generation()
     k = r.randint(67, 90 - amount_letters)
     this_letters = [chr(k + i) for i in range(amount_letters)]
     print(
         'Для кодирования некоторой последовательности, состоящей из {} букв,решили использовать неравномерный двоичный код, удовлетворяющий условию Фано.'.format(
-            amount_letters+2))
+            amount_letters + 2))
     for i in range(amount_letters):
         print('{} имеет код {}'.format(this_letters[i], their_codes[i]))
 
@@ -133,10 +131,13 @@ def lesset_code():
         print('Какова наименьшая возможная суммарная длина всех кодовых слов?')
     else:
         print('Какова наименьшая возможная суммарная длина двух оставшихся кодовых слов?')
-    correct_answer = lesset_code_solution(g, their_codes, all_weights)
+    correct_answer = shortest_code_solution(g, their_codes, all_weights)
     return correct_answer
 
-def lesset_code_true_generation():
+
+def shortest_code_true_generation():
+    amount_letters, codes = 0, []
+    graph_0, graph_1 = 0, 1
     main_flag = True
     while main_flag:
         graph_0 = nx.Graph()

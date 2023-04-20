@@ -1,9 +1,11 @@
+import two
 import third  # есть
 import four
 import five
 import seven
 import nine  # есть
 import fourteen  # есть
+import fifteen
 import sixteen  # есть
 import seventeen  # есть
 import eighteen  # есть
@@ -20,108 +22,144 @@ import twenty_seven  # есть
 # Цифры и дефис не использовать в папках
 # Классы с большой
 # Маленькая и нижние подчеркивания в остальном
-def check_answer(correct_answer, number):
+
+def check_answer_two_answers(correct_answer):
+    answer = input()
+    answer = answer.split()
+    try:
+        answer[0], answer[1] = int(answer[0]), int(answer[1])
+    except IndexError:
+        answer = [int(answer[0]), -1000 ** 1001]
+    if correct_answer[0] == answer[0] and correct_answer[1] == answer[1]:
+        print('Молодец. 2 Балла')
+    elif correct_answer[0] == answer[0] or correct_answer[1] == answer[1] or (
+            correct_answer[0] == answer[1] and correct_answer[1] == answer[0]):
+        print('Почти получилось. 1 балл.')
+        print(*correct_answer)
+    else:
+        print('Попробуйте в другой раз. 0 баллов')
+        print('Хотите узнать правильный ответ? (Да/Нет)')
+        new_answer = input().lower()
+        if new_answer == 'да':
+            print(*correct_answer)
+        elif new_answer != 'нет':
+            print('Что? Надеюсь Вы хотели узнать ответ)')
+            print('Всё равно покажу, на всякий случай.', *correct_answer)
+    exit()
+
+
+def check_answer_more_than_two_answers_len_more_than_1(correct_answer):
+    print('Вводите ответ:')
+    for i in range(len(correct_answer)):
+        x = input().split()
+        x = list(map(int, x))
+        if correct_answer[i][0] == x[0] and correct_answer[i][1] == x[1]:
+            print('Правильно!')
+            continue
+        else:
+            print('Вы не правы, могу предложить Вам ответ, интересует? ( Да/Нет)')
+            answer = input().lower()
+            if answer == 'да':
+                for j in range(len(correct_answer)):
+                    print(*correct_answer[j])
+            elif answer != 'нет':
+                print('Что? Надеюсь Вы хотели узнать ответ)')
+                print('Всё равно покажу, на всякий случай.')
+                for j in range(len(correct_answer)):
+                    print(*correct_answer[j])
+        break
+    exit()
+
+
+def check_answer_more_than_two_answers_len_eq_1(correct_answer):
+    print('Вводите ответ:')
+    for i in range(len(correct_answer)):
+        x = int(input())
+        if correct_answer[i] == x:
+            print('Правильно!')
+            continue
+        else:
+            print('Вы не правы, могу предложить Вам ответ, интересует? ( Да/Нет)')
+            answer = input()
+            if answer == 'Да':
+                for j in range(len(correct_answer)):
+                    print(correct_answer[j])
+        break
+
+
+def check_answer_game(correct_answer):
+    print('Если Вы пропустили какое-то из заданий,\n'
+          'то постарайтесь не оставлять поле пусты.\n'
+          'Попробуйте угадать\n'
+          'Вводите ответ на все 3 задания:')
+    for i in range(3):
+        x = int(input())
+        if correct_answer[i] == x:
+            print('Верно!')
+        else:
+            print('Неверно,хотите узнать ответ?(Да/Нет)')
+            y_n = input()
+            if y_n == 'Да':
+                print(correct_answer[i])
+            elif y_n != 'Нет':
+                print('Что? Надеюсь Вы не хотели узнать ответ)')
+                print('Всё равно покажу, на всякий случай.', correct_answer[i])
+    exit()
+
+
+def check_answer(correct_answer, number: int):
     two_answers = [27, 26, 18, 17]
     more_two = [19, 20, 21, 25]
+    str_answers = [12, 2]
     print('Вводите ответ:')
     if number in two_answers:
-        answer = input()
-        answer = answer.split()
-        try:
-            answer[0], answer[1] = int(answer[0]), int(answer[1])
-        except IndexError:
-            answer = [int(answer[0]), -1000 ** 1001]
-        if correct_answer[0] == answer[0] and correct_answer[1] == answer[1]:
-            print('Молодец. 2 Балла')
-        elif correct_answer[0] == answer[0] or correct_answer[1] == answer[1] or (
-                correct_answer[0] == answer[1] and correct_answer[1] == answer[0]):
-            print('Почти получилось. 1 балл.')
-            print(*correct_answer)
-        else:
-            print('Попробуйте в другой раз. 0 баллов')
-            print('Хотите узнать правильный ответ? (Да/Нет)')
-            new_answer = input().lower()
-            if new_answer == 'да':
-                print(*correct_answer)
-            elif new_answer != 'нет':
-                print('Что? Надеюсь Вы хотели узнать ответ)')
-                print('Всё равно покажу, на всякий случай.', *correct_answer)
-        exit()
+        check_answer_two_answers(correct_answer)
+
     elif number in more_two:
         print('Вводите ответы построчно.')
         if number == 25 and len(correct_answer[0]) > 1:
-            print('Вводите ответ:')
-            for i in range(len(correct_answer)):
-                x = input().split()
-                x = list(map(int, x))
-                if correct_answer[i][0] == x[0] and correct_answer[i][1] == x[1]:
-                    print('Правильно!')
-                    continue
-                else:
-                    print('Вы не правы, могу предложить Вам ответ, интересует? ( Да/Нет)')
-                    answer = input()
-                    if answer == 'Да':
-                        for j in range(len(correct_answer)):
-                            print(*correct_answer[j])
-                    elif answer != 'Нет':
-                        print('Что? Надеюсь Вы хотели узнать ответ)')
-                        print('Всё равно покажу, на всякий случай.')
-                        for j in range(len(correct_answer)):
-                            print(*correct_answer[j])
-                break
-            exit()
+            check_answer_more_than_two_answers_len_more_than_1(correct_answer)
+
         elif number == 25 and len(correct_answer[0]) == 1:
-            print('Вводите ответ:')
-            for i in range(len(correct_answer)):
-                x = int(input())
-                if correct_answer[i] == x:
-                    print('Правильно!')
-                    continue
-                else:
-                    print('Вы не правы, могу предложить Вам ответ, интересует? ( Да/Нет)')
-                    answer = input()
-                    if answer == 'Да':
-                        for j in range(len(correct_answer)):
-                            print(correct_answer[j])
-                break
+            check_answer_more_than_two_answers_len_eq_1(correct_answer)
+
         else:
-            print('Вводите ответ:')
-            for i in range(3):
-                x = int(input())
-                if correct_answer[i] == x:
-                    print('Верно!')
-                else:
-                    print('Неверно,хотите узнать ответ?(Да/Нет)')
-                    y_n = input()
-                    if y_n == 'Да':
-                        print(correct_answer[i])
-                    elif y_n != 'Нет':
-                        print('Что? Надеюсь Вы не хотели узнать ответ)')
-                        print('Всё равно покажу, на всякий случай.', correct_answer[i])
-            exit()
+            check_answer_game(correct_answer)
+
     else:
-        if number == 12:
+
+        if number in str_answers:
             asd = input()
         else:
             asd = int(input())
         if asd == correct_answer:
             print('Молодец, всё верно!')
+
         else:
             print('К сожалению, это неправильный ответ')
             print('Хотите узнать правильный ответ? (Да/Нет)')
             y_n = input().lower()
+
             if y_n == 'да':
-                print(correct_answer)
+                if number in str_answers:
+                    print(*correct_answer)
+                else:
+                    print(correct_answer)
+
             elif y_n != 'нет':
                 print('Что?')
                 print('Надеюсь, Вы хотели узнать ответ')
-                print(correct_answer)
+                if number in str_answers:
+                    print(*correct_answer)
+                else:
+                    print(correct_answer)
         exit()
 
 
 def start():
     print('Выберите номер задания')
     x = int(input())
+    c_a = None
     if x == 1:
         c_a = one.question()
     elif x == 2:
@@ -176,3 +214,9 @@ def start():
         print('Are you sure?')
         start()
     check_answer(c_a, x)
+
+
+if __name__ == '__main__':
+    start()
+
+# GUI для DAR

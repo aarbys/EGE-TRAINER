@@ -41,7 +41,7 @@ def question():
     return c_a
 
 
-def create_main_table(a_o_l):
+def create_main_table(a_o_l: int):
     sol_table = []
     for i in range(a_o_l):
         line = []
@@ -51,7 +51,7 @@ def create_main_table(a_o_l):
     return sol_table
 
 
-def start(amount_of_lines, smth_1, smth_2, smth_3, smth_4):
+def start(amount_of_lines: int, smth_1: str, smth_2: str, smth_3: str, smth_4: str):
     print('Квадрат разлинован на {}*{} клеток.'.format(amount_of_lines, amount_of_lines))
     print(
         'Исполнитель Робот может перемещаться по клеткам, '
@@ -67,27 +67,30 @@ def start(amount_of_lines, smth_1, smth_2, smth_3, smth_4):
 def gen_file():
     x = random.randint(11, 19)
     first_table = []
-    sex_after_siggarets = ''
+    line = ''
+
     for i in range(x):  # Number
         string = ''
         for j in range(x):  # Letter
             smth = random.randint(1, 550)
-            while str(smth) in sex_after_siggarets:
+            while str(smth) in line:
                 smth = random.randint(1, 550)
             string += str(smth) + ' '
-            sex_after_siggarets += str(smth) + ' '
+            line += str(smth) + ' '
         strings = string.split()
         strings = list(map(int, strings))
         first_table.append(strings)
+
     dictionary = dict()
     for i in range(x):  # Number
         for j in range(x):  # Letter
-            i_hate_my_life = first_table[i][j]
+            number_in_i_j_coordinates = first_table[i][j]
             key_from_dict = first_table[0][j]
             if i == 0:
-                dictionary[i_hate_my_life] = [i_hate_my_life]
+                dictionary[number_in_i_j_coordinates] = [number_in_i_j_coordinates]
             else:
-                dictionary[key_from_dict].append(i_hate_my_life)
+                dictionary[key_from_dict].append(number_in_i_j_coordinates)
+
     df = pd.DataFrame(dictionary)
     df.to_excel('18.xlsx', index=False, header=False)
     wb = openpyxl.load_workbook('18.xlsx')
@@ -116,7 +119,7 @@ def example():
         print(*i)
 
 
-def example_solution(psih, type_position):
+def example_solution(divider: int, type_position: int):
     a = [[1, 8, 8, 4], [10, 1, 1, 3], [1, 3, 12, 2], [2, 3, 5, 6]]
     if type_position == 1:
         a.reverse()  # bottom left
@@ -130,31 +133,31 @@ def example_solution(psih, type_position):
     answer = []
     solution_table = create_main_table(4)
 
-    if a[0][0] % psih == 0:
+    if a[0][0] % divider == 0:
         solution_table[0][0] = a[0][0]
     else:
         solution_table[0][0] = 0
 
     for i in range(1, 4):
-        if a[i][0] % psih == 0:
+        if a[i][0] % divider == 0:
             solution_table[i][0] = solution_table[i - 1][0] + a[i][0]
         else:
             solution_table[i][0] = solution_table[i - 1][0]
-        if a[0][i] % psih == 0:
+        if a[0][i] % divider == 0:
             solution_table[0][i] = solution_table[0][i - 1] + a[0][i]
         else:
             solution_table[0][i] = solution_table[0][i - 1]
 
     for i in range(1, 4):
         for j in range(1, 4):
-            if a[i][j] % psih == 0:
+            if a[i][j] % divider == 0:
                 solution_table[i][j] = max(solution_table[i - 1][j], solution_table[i][j - 1]) + a[i][j]
             else:
                 solution_table[i][j] = max(solution_table[i - 1][j], solution_table[i][j - 1])
     answer.append(solution_table[-1][-1])
     for i in range(1, 4):
         for j in range(1, 4):
-            if a[i][j] % psih == 0:
+            if a[i][j] % divider == 0:
                 solution_table[i][j] = min(solution_table[i - 1][j], solution_table[i][j - 1]) + a[i][j]
             else:
                 solution_table[i][j] = min(solution_table[i - 1][j], solution_table[i][j - 1])
@@ -162,7 +165,7 @@ def example_solution(psih, type_position):
     return answer
 
 
-def solution_easy(table: 'input table from EXCEL', a_o_l: 'Amount of lines'):
+def solution_easy(table: list, a_o_l: 'Amount of lines'):
     solution_table = create_main_table(
         a_o_l)  # Table with full solution of this problem like a solution table[NUMBER][LETTER]
 
@@ -209,28 +212,28 @@ def top_left_easy():
     return correct_answer
 
 
-def solution_medium(table: ' Excel table', a_o_l, psih: ' Variable divider'):
+def solution_medium(table: list, a_o_l: int, divider: 'Variable divider'):
     answer = []
     solution_table = create_main_table(
         a_o_l)  # Table with full solution of this problem like a solution table[NUMBER][LETTER]
 
-    if table[0][0] % psih == 0:
+    if table[0][0] % divider == 0:
         solution_table[0][0] = table[0][0]
     else:
         solution_table[0][0] = 0
     for i in range(1, a_o_l):
-        if table[i][0] % psih == 0:
+        if table[i][0] % divider == 0:
             solution_table[i][0] = solution_table[i - 1][0] + table[i][0]
         else:
             solution_table[i][0] = solution_table[i - 1][0]
-        if table[0][i] % psih == 0:
+        if table[0][i] % divider == 0:
             solution_table[0][i] = solution_table[0][i - 1] + table[0][i]
         else:
             solution_table[0][i] = solution_table[0][i - 1]
 
     for i in range(1, a_o_l):
         for j in range(1, a_o_l):
-            if table[i][j] % psih == 0:
+            if table[i][j] % divider == 0:
                 solution_table[i][j] = max(solution_table[i - 1][j], solution_table[i][j - 1]) + table[i][j]
             else:
                 solution_table[i][j] = max(solution_table[i - 1][j], solution_table[i][j - 1])
@@ -238,7 +241,7 @@ def solution_medium(table: ' Excel table', a_o_l, psih: ' Variable divider'):
     answer.append(solution_table[-1][-1])  # Adding to correct answer first value for this problem
     for i in range(1, a_o_l):
         for j in range(1, a_o_l):
-            if table[i][j] % psih == 0:
+            if table[i][j] % divider == 0:
                 solution_table[i][j] = min(solution_table[i - 1][j], solution_table[i][j - 1]) + table[i][j]
             else:
                 solution_table[i][j] = min(solution_table[i - 1][j], solution_table[i][j - 1])
@@ -249,12 +252,12 @@ def solution_medium(table: ' Excel table', a_o_l, psih: ' Variable divider'):
 
 def top_left_medium():
     table, amount_of_lines = gen_file()  # Excel table, amount of lines and values in lines
-    psih = random.randint(2, 10)  # Random number that will be divider
-    correct_answer = solution_medium(table, amount_of_lines, psih)
+    divider = random.randint(2, 10)  # Random number that will be divider
+    correct_answer = solution_medium(table, amount_of_lines, divider)
     start(amount_of_lines, 'вниз', 'право', 'нижнюю', 'правую')
     print(
         'Посетив клетку, Робот забирает монету с собой,если её достоинство кратно {};\n'
-        ' это также относится к начальной и конечной клетке маршрута Робота.'.format(psih))
+        ' это также относится к начальной и конечной клетке маршрута Робота.'.format(divider))
     print(
         'Откройте файл. Определите максимальную и минимальную денежную сумму, которую может собрать Робот, '
         'пройдя из левой верхней клетки в правую нижнюю.')
@@ -264,7 +267,7 @@ def top_left_medium():
         'Исходные данные представляют собой электронную таблицу размером {}*{}, '
         'каждая ячейка которой соответствует клетке квадрата.'.format(amount_of_lines, amount_of_lines))
     example()
-    c_e_1, c_e_2 = example_solution(psih, 0)  # Automatic answer for a table from funcution example
+    c_e_1, c_e_2 = example_solution(divider, 0)  # Automatic answer for a table from function example
     print('Для указанных входных данных ответом должна быть пара чисел {} и {}.'.format(c_e_1, c_e_2))
     return correct_answer
 
@@ -296,21 +299,21 @@ def top_right():
     return correct_answer
 
 
-def top_right_M_solution(table: ' Excel table', a_o_l, psih: ' Variable divider'):
+def top_right_M_solution(table: list, a_o_l: int, divider: int):
     for x in range(len(table)):
         table[x].reverse()
-    return solution_medium(table, a_o_l, psih)
+    return solution_medium(table, a_o_l, divider)
 
 
 def top_right_M():
     table, amount_of_lines = gen_file()  # Excel table, amount of lines and values in lines
-    psih = random.randint(2, 10)  # Random number that will be divider
-    correct_answer = top_right_M_solution(table, amount_of_lines, psih)
+    divider = random.randint(2, 10)  # Random number that will be divider
+    correct_answer = top_right_M_solution(table, amount_of_lines, divider)
     start(amount_of_lines, 'в низ', 'влево', 'нижнию', 'левую')
     print(
         'Посетив клетку, Робот забирает монету с собой,если её достоинство кратно {};\n '
         'это также относится к начальной и конечной клетке маршрута Робота.'.format(
-            psih))
+            divider))
     print(
         'Откройте файл. Определите максимальную и минимальную денежную сумму, '
         'которую может собрать Робот, пройдя из правой верхней клетки в левую нижнюю.')
@@ -321,12 +324,12 @@ def top_right_M():
         ' каждая ячейка которой соответствует клетке квадрата.'.format(
             amount_of_lines, amount_of_lines))
     example()
-    c_e_1, c_e_2 = example_solution(psih, 3)  # Automatic answer for a table from funcution example
+    c_e_1, c_e_2 = example_solution(divider, 3)  # Automatic answer for a table from function example
     print('Для указанных входных данных ответом должна быть пара чисел {} и {}.'.format(c_e_1, c_e_2))
     return correct_answer
 
 
-def bottom_left_soliution(table: 'input table from EXCEL', a_o_l: 'Amount of lines'):
+def bottom_left_solution(table: list, a_o_l: 'Amount of lines'):
     table.reverse()
     answer = solution_easy(table, a_o_l)
     return answer
@@ -334,7 +337,7 @@ def bottom_left_soliution(table: 'input table from EXCEL', a_o_l: 'Amount of lin
 
 def bottom_left():
     table, amount_of_lines = gen_file()
-    correct_answer = bottom_left_soliution(table, amount_of_lines)
+    correct_answer = bottom_left_solution(table, amount_of_lines)
     start(amount_of_lines, 'вверх', 'право', 'верхнюю', 'правую')
     print(
         'Посетив клетку, Робот забирает монету с собой; '
@@ -353,20 +356,21 @@ def bottom_left():
     return correct_answer
 
 
-def bottom_left_M_solution(table: ' Excel table', a_o_l, psih: ' Variable divider'):
+def bottom_left_M_solution(table: list, a_o_l: int, divider: int):
     table.reverse()
-    return solution_medium(table, a_o_l, psih)
+    return solution_medium(table, a_o_l, divider)
 
 
 def bottom_left_M():
     table, amount_of_lines = gen_file()  # Excel table, amount of lines and values in lines
-    psih = random.randint(2, 10)  # Random number that will be divider
-    correct_answer = bottom_left_M_solution(table, amount_of_lines, psih)
+    divider = random.randint(2, 10)  # Random number that will be divider
+    correct_answer = bottom_left_M_solution(table, amount_of_lines, divider)
     start(amount_of_lines, 'вверх', 'право', 'верхнюю', 'правую')
     print(
         'Посетив клетку, Робот забирает монету с собой,если её достоинство кратно {};\n'
         ' это также относится к начальной и конечной клетке маршрута Робота.'.format(
-            psih))
+            divider))
+
     print(
         'Откройте файл. Определите максимальную и минимальную денежную сумму,'
         ' которую может собрать Робот, пройдя из левой нижней клетки в правую верхнюю.')
@@ -377,12 +381,12 @@ def bottom_left_M():
         ' каждая ячейка которой соответствует клетке квадрата.'.format(
             amount_of_lines, amount_of_lines))
     example()
-    c_e_1, c_e_2 = example_solution(psih, 1)  # Automatic answer for a table from funcution example
+    c_e_1, c_e_2 = example_solution(divider, 1)  # Automatic answer for a table from funcution example
     print('Для указанных входных данных ответом должна быть пара чисел {} и {}.'.format(c_e_1, c_e_2))
     return correct_answer
 
 
-def bottom_right_solution(table: 'input table from EXCEL', a_o_l: 'Amount of lines'):
+def bottom_right_solution(table: list, a_o_l: 'Amount of lines'):
     table.reverse()
     for x in range(len(table)):
         table[x].reverse()
@@ -410,22 +414,22 @@ def bottom_right():
     return correct_answer
 
 
-def bottom_right_M_solution(table: ' Excel table', a_o_l, psih: ' Variable divider'):
+def bottom_right_M_solution(table: list, a_o_l: int, divider: int):
     table.reverse()
     for x in range(len(table)):
         table[x].reverse()
-    return solution_medium(table, a_o_l, psih)
+    return solution_medium(table, a_o_l, divider)
 
 
 def bottom_right_M():
     table, amount_of_lines = gen_file()  # Excel table, amount of lines and values in lines
-    psih = random.randint(2, 10)  # Random number that will be divider
-    correct_answer = bottom_right_M_solution(table, amount_of_lines, psih)
+    divider = random.randint(2, 10)  # Random number that will be divider
+    correct_answer = bottom_right_M_solution(table, amount_of_lines, divider)
     start(amount_of_lines, 'вверх', 'влево', 'верхнюю', 'левую')
     print(
         'Посетив клетку, Робот забирает монету с собой,если её достоинство кратно {};\n'
         ' это также относится к начальной и конечной клетке маршрута Робота.'.format(
-            psih))
+            divider))
     print(
         'Откройте файл. Определите максимальную и минимальную денежную сумму,'
         ' которую может собрать Робот, пройдя из правой нижней клетки в левую верхнюю.')
@@ -436,12 +440,12 @@ def bottom_right_M():
         ' каждая ячейка которой соответствует клетке квадрата.'.format(
             amount_of_lines, amount_of_lines))
     example()
-    c_e_1, c_e_2 = example_solution(psih, 2)  # Automatic answer for a table from funcution example
+    c_e_1, c_e_2 = example_solution(divider, 2)  # Automatic answer for a table from funcution example
     print('Для указанных входных данных ответом должна быть пара чисел {} и {}.'.format(c_e_1, c_e_2))
     return correct_answer
 
 
-def gen_borders(L: str, corner_N, corner_L, len_N, len_L):
+def gen_borders(L: str, corner_N: int, corner_L: int, len_N: int, len_L: int):
     top = bottom = right = left = Side(border_style='thick', color='000000')
     wb = openpyxl.load_workbook('18.xlsx')
     ws = wb['Sheet1']
@@ -484,7 +488,7 @@ def gen_borders(L: str, corner_N, corner_L, len_N, len_L):
     wb.save('18.xlsx')
 
 
-def top_left_hard_solution(table, a_o_l, corner_N, corner_L, len_N, len_L):
+def top_left_hard_solution(table: list, a_o_l: int, corner_N: int, corner_L: int, len_N: int, len_L: int):
     def resolving(amount_of_lines, return_table, main_table, value):
         for f in range(1, amount_of_lines):
             for j in range(1, amount_of_lines):
@@ -545,7 +549,7 @@ def top_left_hard():
     return correct_answer
 
 
-def top_right_hard_solution(table, a_o_l, corner_N, corner_L, len_N, len_L):
+def top_right_hard_solution(table: list, a_o_l: int, corner_N: int, corner_L: int, len_N: int, len_L: int):
     answer = []
 
     def nullifies(corner_n, len_n, corner_l, len_l, solu_tab, what):
@@ -614,7 +618,7 @@ def top_right_hard():
     return correct_answer
 
 
-def bottom_left_hard_solution(table, a_o_l, corner_N, corner_L, len_N, len_L):
+def bottom_left_hard_solution(table: list, a_o_l: int, corner_N: int, corner_L: int, len_N: int, len_L: int):
     answer = []
 
     def nullifies(corner_n, len_n, corner_l, len_l, sol_tab, what):
@@ -683,7 +687,7 @@ def bottom_left_hard():
     return correct_answer
 
 
-def bottom_right_hard_solution(table, a_o_l, corner_N, corner_L, len_N, len_L):
+def bottom_right_hard_solution(table: list, a_o_l: int, corner_N: int, corner_L: int, len_N: int, len_L: int):
     answer = []
 
     def nullifies(corner_n, len_n, corner_l, len_l, sol_tab, what):
