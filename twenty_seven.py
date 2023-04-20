@@ -8,7 +8,6 @@ from time import sleep
 # pypy
 # cython
 
-
 def check_process(process_name):
     for proc in psutil.process_iter():
         if process_name == proc.name():
@@ -53,6 +52,7 @@ def gen_file(type_of_problem):
     file = open('conditions.txt', 'w')
 
     if type_of_problem == 1:
+
         file.write('0 0 50')
 
     elif type_of_problem == 2:
@@ -466,32 +466,41 @@ def robot_postman_solution(amount):
             f = open('27_A.txt')
         else:
             f = open('27_B.txt')
+
         n, s, z = map(int, f.readline().split())
         x = [0] * s
         price = [0] * s
         d = []
+
         for i in range(1, n):
             a, b = map(int, f.readline().split())
             x[a - 1] = b // amount + min(1, b % amount)
             d.append(a - 1)
+
         for i in range(z * 2 + 1):
             price[z] += x[i]
-        l = 0
+
+        k = 0
         r = z * 2 + 1
+
         for i in range(z + 1, s):
-            price[i] = price[i - 1] + x[r] - x[l]
-            l = (l + 1) % s
+            price[i] = price[i - 1] + x[r] - x[k]
+            k = (k + 1) % s
             r = (r + 1) % s
-        price[0] = price[s - 1] + x[r] - x[l]
-        l = (l + 1) % s
+
+        price[0] = price[s - 1] + x[r] - x[k]
+        k = (k + 1) % s
         r = (r + 1) % s
+
         for i in range(1, z):
-            price[i] = price[i - 1] + x[r] - x[l]
-            l = (l + 1) % s
+            price[i] = price[i - 1] + x[r] - x[k]
+            k = (k + 1) % s
             r = (r + 1) % s
+
         m = 0
         for i in d:
             m = max(m, price[i])
+
         answer.append(m)
     return answer
 

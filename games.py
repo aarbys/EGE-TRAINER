@@ -13,7 +13,7 @@ def question():
     return c_a
 
 
-def termins_and_questions():
+def terminus_and_questions():
     print('Будем говорить, что игрок имеет выигрышную стратегию, если он может выиграть при любых ходах противника.')
     print(
         'Описать стратегию игрока — значит, описать, какой ход он должен сделать в любой ситуации, которая ему может встретиться при различной игре противника.')
@@ -121,7 +121,7 @@ def one_pile():
         'Победителем считается игрок, сделавший последний ход, то есть первым получивший кучу, в которой будет {} или больше камней.'.format(
             winning_game))
     print('В начальный момент в куче было S камней; 1 ≤ S ≤ {}.'.format(winning_game - 1))
-    termins_and_questions()
+    terminus_and_questions()
     return correct_answer
 
 
@@ -197,5 +197,5 @@ def two_pile():
     print('Победителем считается игрок, сделавший последний ход')
     print('В начальный момент в первой куче было', first_pile,
           'камней, во второй куче — S камней; 1 ≤ S ≤ {}.'.format(winning_game - 1))
-    termins_and_questions()
+    terminus_and_questions()
     return correct_answer
